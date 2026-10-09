@@ -13,7 +13,11 @@ Oracle is a static web app. Once loaded, everything runs in your browser.
 - **Offline:** after the first visit, the app opens without a connection. Conversation needs the network.
 - **Install:** on a phone, use "Add to Home Screen" to install it like an app.
 
-## Host it
+## On claude.ai
+
+`npm run build:claude` builds a version for publishing as a private claude.ai page. There, Oracle needs no API key or hosting: it answers with Claude through your claude.ai account, and keeps your record in your private area of the page's database, so it follows your account across devices. The Yosef case study loads from a button under Memory & privacy.
+
+## Host it elsewhere
 
 The site is just files in `dist/`. Pick one:
 

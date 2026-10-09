@@ -134,3 +134,28 @@ export function field(name, labelText, { type = 'text', value = '', rows = 3, pl
 
 export const formData = (form) => Object.fromEntries(new FormData(form).entries());
 export const lines = (s) => (s || '').split('\n').map((x) => x.trim()).filter(Boolean);
+
+// In-page confirmation dialog (claude.ai pages block the browser's own confirm/prompt).
+// Resolves true (or the typed text, when `input` is set) on confirm, null on cancel.
+export function ask({ title, body = '', confirmLabel = 'Confirm', danger = false, input = null, requireText = null }) {
+  return new Promise((resolve) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'dialog-wrap';
+    wrap.innerHTML = `<div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlgTitle">
+      <h2 id="dlgTitle">${esc(title)}</h2>${body ? `<p>${esc(body)}</p>` : ''}
+      ${input ? `<textarea class="field" id="dlgInput" rows="3" placeholder="${esc(input.placeholder || '')}"></textarea>` : ''}
+      <div class="row" style="justify-content:flex-end"><button class="btn" data-a="cancel" type="button">Cancel</button>
+      <button class="btn ${danger ? 'danger' : 'primary'}" data-a="ok" type="button"${requireText ? ' disabled' : ''}>${esc(confirmLabel)}</button></div></div>`;
+    document.body.append(wrap);
+    const field = wrap.querySelector('#dlgInput');
+    const ok = wrap.querySelector('[data-a=ok]');
+    if (field && requireText) field.addEventListener('input', () => { ok.disabled = field.value.trim() !== requireText; });
+    (field || ok).focus();
+    const done = (v) => { wrap.remove(); resolve(v); };
+    wrap.addEventListener('click', (e) => {
+      if (e.target === wrap || e.target.dataset.a === 'cancel') done(null);
+      else if (e.target.dataset.a === 'ok') done(input ? field.value : true);
+    });
+    wrap.addEventListener('keydown', (e) => { if (e.key === 'Escape') done(null); });
+  });
+}

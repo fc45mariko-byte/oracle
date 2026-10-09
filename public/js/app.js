@@ -1,6 +1,7 @@
-// Router. Each view module exports `render(el, ...args)`.
+// Entry point: routes in-page paths ("/people/p_yosef") to views. Each view exports `render(el, ...args)`.
 
 import { esc } from './ui.js';
+import { startRouter } from './router.js';
 import * as home from './views/home.js';
 import * as talk from './views/talk.js';
 import * as people from './views/people.js';
@@ -23,28 +24,29 @@ const routes = {
   memory: [memory.render, 'memory'],
 };
 
-async function route() {
-  const [name = '', ...args] = location.hash.replace(/^#\/?/, '').split('/').map(decodeURIComponent);
+let first = true;
+async function show(path, { fresh }) {
+  const [name = '', ...args] = path.replace(/^\/?/, '').split('/').map(decodeURIComponent);
   const [render, nav] = routes[name] || routes[''];
   document.querySelectorAll('[data-nav]').forEach((a) => a.classList.toggle('active', a.dataset.nav === nav));
   const el = document.getElementById('view');
-  el.innerHTML = '<div class="empty">…</div>';
+  if (fresh) el.innerHTML = `<div class="empty">${first ? 'Opening your record…' : '…'}</div>`;
   try {
     await render(el, ...args.filter(Boolean));
   } catch (e) {
     el.innerHTML = `<h1>Something went wrong.</h1><p class="sub">${esc(e.message)}</p>`;
     console.error(e);
   }
-  if (!args.length || name !== 'talk') window.scrollTo(0, 0);
+  first = false;
+  if (fresh && name !== 'talk') window.scrollTo(0, 0);
 }
 
-window.addEventListener('hashchange', route);
 document.addEventListener('oracle:save-error', () => {
   const t = document.getElementById('toast');
-  t.textContent = 'Could not save to this browser’s storage. Export your record from Memory now.';
+  t.textContent = 'Your last change could not be saved. Export your record from Memory now.';
   t.classList.add('show');
 });
-if ('serviceWorker' in navigator && location.protocol === 'https:') {
+if ('serviceWorker' in navigator && location.protocol === 'https:' && !window.claude) {
   navigator.serviceWorker.register('./sw.js').catch(() => { /* offline support is optional */ });
 }
-route();
+startRouter(show);

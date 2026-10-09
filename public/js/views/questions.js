@@ -1,3 +1,4 @@
+import { navigate } from '../router.js';
 import { get, post, patch } from '../api.js';
 import { esc, label, eventRow, field, formData, lines, toast } from '../ui.js';
 
@@ -25,7 +26,7 @@ export async function render(el, id) {
     const d = formData(e.target);
     if (!d.text.trim()) return;
     const q = await post('/questions', { text: d.text, whyItMatters: d.whyItMatters, possibleAnswers: lines(d.possibleAnswers), personIds: d.personId ? [d.personId] : [] });
-    location.hash = `#/questions/${q.id}`;
+    navigate(`#/questions/${q.id}`);
   });
 }
 

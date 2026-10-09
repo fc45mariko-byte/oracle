@@ -1,5 +1,6 @@
+import { navigate } from '../router.js';
 import { get, post, patch, del } from '../api.js';
-import { esc, label, eventRow, field, formData, lines, toast } from '../ui.js';
+import { esc, label, eventRow, field, formData, lines, toast, ask } from '../ui.js';
 
 export async function render(el, id) {
   if (id) return renderOne(el, id);
@@ -28,7 +29,7 @@ export async function render(el, id) {
     const d = formData(e.target);
     if (!d.title.trim() || !d.description.trim()) return;
     const p = await post('/patterns', { title: d.title, description: d.description, alternatives: lines(d.alternatives), personIds: d.personId ? [d.personId] : [], origin: 'user', label: 'inferred' });
-    location.hash = `#/patterns/${p.id}`;
+    navigate(`#/patterns/${p.id}`);
   });
 }
 
@@ -71,8 +72,8 @@ async function renderOne(el, id) {
     renderOne(el, id);
   });
   el.querySelector('#delete').addEventListener('click', async () => {
-    if (!confirm('Delete this pattern? Consider marking it obsolete instead, which keeps the history.')) return;
+    if (!await ask({ title: 'Delete this pattern?', body: 'Marking it obsolete instead keeps its history.', confirmLabel: 'Delete pattern', danger: true })) return;
     await del(`/patterns/${id}`);
-    location.hash = '#/patterns';
+    navigate('#/patterns');
   });
 }

@@ -20,28 +20,30 @@ export class ApiError extends Error {
  *           settings: { get(): object, set(patch: object): void },
  *           client?: object }} deps  `client` overrides the Anthropic client (tests).
  */
-export function createApi({ store, settings, client: clientOverride }) {
+export function createApi({ store, settings, client: clientOverride, getClient, aiInfo }) {
   const routes = [];
   const route = (method, pattern, handler) => {
     const keys = [];
     const re = new RegExp(`^${pattern.replace(/:(\w+)/g, (_, k) => { keys.push(k); return '([^/]+)'; })}$`);
     routes.push({ method, re, keys, handler });
   };
-  const client = () => (clientOverride !== undefined ? clientOverride : createClient(settings.get()));
+  // Where conversation goes: an explicit client (tests), a provided one (claude.ai's sample), or the
+  // Anthropic SDK with the API key from settings.
+  const client = () => (clientOverride !== undefined ? clientOverride : (getClient?.() || createClient(settings.get())));
 
   // ---- status and settings ---------------------------------------------------
   route('GET', '/status', () => ({
-    ai: { ...aiStatus(settings.get()), configured: Boolean(client()) },
+    ai: { ...aiStatus(settings.get()), ...(aiInfo?.() || {}), configured: Boolean(client()) },
     storage: store.backend.describe(),
     counts: store.stats(),
   }));
   route('GET', '/settings', () => {
     const s = settings.get();
-    return { model: s.model || '', effort: s.effort || '', hasApiKey: Boolean(s.apiKey) };
+    return { model: s.model || '', effort: s.effort || '', tier: s.tier || '', hasApiKey: Boolean(s.apiKey) };
   });
   route('PATCH', '/settings', (_, body) => {
     const patch = {};
-    for (const k of ['apiKey', 'model', 'effort']) if (k in body) patch[k] = String(body[k] || '').trim();
+    for (const k of ['apiKey', 'model', 'effort', 'tier']) if (k in body) patch[k] = String(body[k] || '').trim();
     settings.set(patch);
     return { ok: true };
   });

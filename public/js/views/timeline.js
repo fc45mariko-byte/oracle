@@ -1,5 +1,6 @@
+import { navigate } from '../router.js';
 import { get, post, patch, del } from '../api.js';
-import { esc, label, eventRow, groupByMonth, fmtMonth, fmtDate, field, formData, lines, toast } from '../ui.js';
+import { esc, label, eventRow, groupByMonth, fmtMonth, fmtDate, field, formData, lines, toast, ask } from '../ui.js';
 
 const CATEGORIES = ['meeting', 'contact', 'conversation', 'intimacy', 'conflict', 'rupture', 'return', 'plan', 'disclosure', 'statement', 'reflection', 'other'];
 const EFFECTS = [['none', 'No change'], ['cut', 'Contact cut (block, deletion, ending)'], ['reopen', 'Contact reopened'], ['reopen_then_cut', 'Reopened, then cut']];
@@ -48,7 +49,7 @@ export async function renderEvent(el, id) {
   const others = e.annotations.filter((a) => a.kind !== 'correction');
 
   el.innerHTML = `
-    <a class="back" href="javascript:history.back()">← Back</a>
+    <a class="back" href="#back">← Back</a>
     <div class="small">${esc(fmtDate(v.date, v.datePrecision))} · ${esc(v.category)}</div>
     <h1 style="font-size:26px;margin-top:6px">${esc(v.title)}</h1>
     <div class="row" style="margin:10px 0 16px">${label(v.label)}${v.contactEffect !== 'none' ? `<span class="chip ${v.contactEffect === 'reopen' ? 'reopen' : 'cut'}">${esc(EFFECTS.find((x) => x[0] === v.contactEffect)[1])}${v.contactActorId ? ` · ${esc(name(v.contactActorId))}` : ''}</span>` : ''}</div>
@@ -111,9 +112,9 @@ export async function renderEvent(el, id) {
     renderEvent(el, id);
   }));
   el.querySelector('#delete').addEventListener('click', async () => {
-    if (!confirm('Delete this event permanently? References to it in patterns and questions will be removed too. This cannot be undone (export first if unsure).')) return;
+    if (!await ask({ title: 'Delete this event?', body: 'It will be removed permanently, along with references to it in patterns and questions. Export first if you might want it back.', confirmLabel: 'Delete event', danger: true })) return;
     await del(`/events/${id}`);
-    location.hash = '#/timeline';
+    navigate('#/timeline');
   });
 }
 
@@ -133,7 +134,7 @@ export async function renderAdd(el, personId = '') {
   const people = await get('/people');
   const self = people.find((p) => p.isSelf);
   el.innerHTML = `
-    <a class="back" href="javascript:history.back()">← Back</a>
+    <a class="back" href="#back">← Back</a>
     <h1>Add a<br>moment.</h1>
     <p class="sub">Write it as it happened, in your own words. That text is kept exactly as written; later readings sit beside it, never over it.</p>
     <form id="add">
@@ -171,7 +172,7 @@ export async function renderAdd(el, personId = '') {
     try {
       const e = await post('/events', body);
       toast('Kept in the record');
-      location.hash = `#/event/${e.id}`;
+      navigate(`#/event/${e.id}`);
     } catch (err) { toast(err.message); }
   });
 }

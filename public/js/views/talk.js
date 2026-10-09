@@ -1,5 +1,6 @@
+import { navigate } from '../router.js';
 import { get, post, del } from '../api.js';
-import { esc, md, label, toast, hrefFor, fmtDate } from '../ui.js';
+import { esc, md, label, toast, hrefFor, fmtDate, ask } from '../ui.js';
 
 const REQUEST_NAMES = {
   new_event: 'New event', ask_about_person: 'About a person', develop_hypothesis: 'Hypothesis', revisit_interpretation: 'Revisiting',
@@ -19,14 +20,14 @@ export async function render(el, cid, sub, personId) {
   const status = await get('/status');
   if (cid === 'new' && sub === 'review' && personId) {
     const c = await post('/conversations', { personIds: [personId], title: 'Review' });
-    location.replace(`#/talk/${c.id}/review/${personId}`);
+    navigate(`#/talk/${c.id}/review/${personId}`, { replace: true });
     return;
   }
   if (!cid) return renderList(el, status);
   const conv = await get(`/conversations/${cid}`);
   renderThread(el, conv, status);
   if (sub === 'review' && personId && !conv.messages.length) {
-    history.replaceState(null, '', `#/talk/${cid}`);
+    navigate(`#/talk/${cid}`, { replace: true, silent: true });
     send(el, conv, status, null, personId);
   }
 }
@@ -43,11 +44,11 @@ async function renderList(el, status) {
   `;
   el.querySelector('#newConv').addEventListener('click', async () => {
     const c = await post('/conversations', {});
-    location.hash = `#/talk/${c.id}`;
+    navigate(`#/talk/${c.id}`);
   });
 }
 
-const aiOffBanner = () => `<div class="banner">Oracle can’t answer yet: add your Anthropic API key in <a href="#/memory" style="text-decoration:underline">Memory &amp; privacy</a>. You can still use <strong>Preview recall</strong> to see exactly what Oracle would retrieve from memory for a message.</div>`;
+const aiOffBanner = () => `<div class="banner">Oracle can’t answer yet: Claude isn’t connected here. See <a href="#/memory" style="text-decoration:underline">Memory &amp; privacy</a>. You can still use <strong>Preview recall</strong> to see exactly what Oracle would retrieve from memory for a message.</div>`;
 
 function renderThread(el, conv, status) {
   el.innerHTML = `
@@ -82,9 +83,9 @@ function renderThread(el, conv, status) {
     el.querySelector('#previewOut').innerHTML = `<div class="card" style="margin-top:10px"><div class="meta">What Oracle would recall for this message · ${r.trace.length} items · ${Math.round(r.chars / 4)} tokens approx.</div>${traceList(r.trace)}<details><summary>Exact text that would be sent</summary><pre class="mono" style="white-space:pre-wrap;max-height:320px;overflow:auto">${esc(r.context)}</pre></details></div>`;
   });
   el.querySelector('#delConv').addEventListener('click', async () => {
-    if (!confirm('Delete this conversation? Events, patterns and questions you accepted from it stay in the record.')) return;
+    if (!await ask({ title: 'Delete this conversation?', body: 'Events, patterns and questions you accepted from it stay in the record.', confirmLabel: 'Delete conversation', danger: true })) return;
     await del(`/conversations/${conv.id}`);
-    location.hash = '#/talk';
+    navigate('#/talk');
   });
   get('/people').then((ps) => {
     const sel = el.querySelector('#reviewWho');

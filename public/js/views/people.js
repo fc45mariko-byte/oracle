@@ -1,5 +1,6 @@
+import { navigate, rerender } from '../router.js';
 import { get, post, patch } from '../api.js';
-import { esc, label, tile, eventRow, groupByMonth, fmtMonth, fmtDate, field, formData, lines, toast, hrefFor } from '../ui.js';
+import { esc, label, tile, eventRow, groupByMonth, fmtMonth, fmtDate, field, formData, lines, toast, hrefFor, ask } from '../ui.js';
 
 export async function render(el, id, tab = 'overview') {
   if (id) return renderPerson(el, id, tab);
@@ -22,7 +23,7 @@ export async function render(el, id, tab = 'overview') {
     const d = formData(e.target);
     if (!d.name.trim()) return;
     const p = await post('/people', d);
-    location.hash = `#/people/${p.id}`;
+    navigate(`#/people/${p.id}`);
   });
 }
 
@@ -42,7 +43,7 @@ async function renderPerson(el, id, tab) {
     <p class="sub">${esc(p.context)}</p>
     <div class="pill-tabs">${tabs.map(([k, t]) => `<button class="${k === tab ? 'active' : ''}" data-tab="${k}">${t}</button>`).join('')}</div>
     <div id="body">${body(o)}</div>`;
-  el.querySelectorAll('[data-tab]').forEach((b) => b.addEventListener('click', () => { location.hash = `#/people/${p.id}/${b.dataset.tab}`; }));
+  el.querySelectorAll('[data-tab]').forEach((b) => b.addEventListener('click', () => { navigate(`#/people/${p.id}/${b.dataset.tab}`); }));
   if (tab === 'profile') bindProfile(el, p);
   if (tab === 'mind') bindInterpretations(el);
 }
@@ -110,11 +111,11 @@ export function bindInterpretations(el) {
   el.querySelectorAll('[data-interp] [data-status]').forEach((b) => b.addEventListener('click', async () => {
     const id = b.closest('[data-interp]').dataset.interp;
     const status = b.dataset.status;
-    const userResponse = prompt(status === 'revised' ? 'How would you revise it?' : 'Anything to note? (optional)') ?? null;
+    const userResponse = await ask({ title: status === 'revised' ? 'How would you revise it?' : status === 'retained' ? 'Keep this interpretation' : 'Reject this interpretation', body: 'Your note is kept with it (optional).', confirmLabel: 'Save', input: { placeholder: 'Your note' } });
     if (userResponse === null) return;
     await patch(`/interpretations/${id}`, { status, userResponse, _reason: 'user response' });
     toast('Saved');
-    window.dispatchEvent(new HashChangeEvent('hashchange'));
+    rerender();
   }));
 }
 
@@ -144,6 +145,6 @@ function bindProfile(el, p) {
       explicitStatements: lines(d.explicitStatements), observations: lines(d.observations), unknowns: lines(d.unknowns), notes: d.notes, _reason: d._reason,
     });
     toast('Saved. The previous version is kept in the history.');
-    location.hash = `#/people/${p.id}`;
+    navigate(`#/people/${p.id}`);
   });
 }
