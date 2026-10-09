@@ -1,0 +1,28 @@
+{
+  "name": "oracle",
+  "version": "0.1.0",
+  "description": "Oracle: a persistent relationship-intelligence system",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server/index.js",
+    "test": "node --test tests/*.test.js",
+    "eval": "node --env-file-if-exists=.env evals/run.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fc45mariko-byte/oracle.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fc45mariko-byte/oracle/issues"
+  },
+  "homepage": "https://github.com/fc45mariko-byte/oracle#readme",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.133.0",
+    "zod": "^4.6.5"
+  },
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.9"
+  }
+}
