@@ -9,10 +9,10 @@ import { fileURLToPath } from 'node:url';
 import Anthropic from '@anthropic-ai/sdk';
 import { betaZodOutputFormat } from '@anthropic-ai/sdk/helpers/beta/zod';
 import { z } from 'zod';
-import { Store, MemoryBackend } from '../server/store.js';
-import { importYosefCase } from '../server/seed.js';
-import { retrieve } from '../server/retrieval.js';
-import { runTurn, createClient, DEFAULT_MODEL } from '../server/intelligence.js';
+import { Store, MemoryBackend } from '../core/store.js';
+import { importYosefCase } from '../seed/import.js';
+import { retrieve } from '../core/retrieval.js';
+import { runTurn, createClient, DEFAULT_MODEL } from '../core/intelligence.js';
 import { CASES, COMMON } from './yosef-cases.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -21,6 +21,7 @@ const live = args.includes('--live');
 const only = args.includes('--only') ? args[args.indexOf('--only') + 1].split(',') : null;
 const JUDGE_MODEL = process.env.ORACLE_JUDGE_MODEL || 'claude-opus-5-5';
 const TODAY = '2026-10-09';
+const MODEL = process.env.ORACLE_MODEL || DEFAULT_MODEL;
 
 const fresh = () => { const s = new Store(new MemoryBackend()); importYosefCase(s); return s; };
 const cases = CASES.filter((c) => !only || only.includes(c.id));
@@ -51,11 +52,11 @@ for (const c of cases) {
   console.log(`${missing.length ? '✗' : '✓'} retrieval  ${c.id.padEnd(24)} ${missing.length ? `missing ${missing.join(', ')}` : `${r.trace.length} items`}`);
 
   if (live) {
-    const client = createClient();
+    const client = createClient({ apiKey: process.env.ANTHROPIC_API_KEY });
     if (!client) { console.error('--live needs ANTHROPIC_API_KEY'); process.exit(1); }
     const conv = store.createConversation();
     try {
-      const { assistant } = await runTurn(store, client, conv.id, c.message, { today: TODAY });
+      const { assistant } = await runTurn(store, client, conv.id, c.message, { today: TODAY, model: MODEL });
       const verdicts = await judge(client, c, r.context, assistant);
       const passed = verdicts.filter((v) => v.pass).length;
       row.live = { reply: assistant.reply, proposals: assistant.proposals, verdicts, score: `${passed}/${verdicts.length}`, usage: assistant.usage };
@@ -71,7 +72,7 @@ for (const c of cases) {
 console.log(`\nRetrieval: ${retrievalPass}/${cases.length} cases surfaced every required item.`);
 if (live) {
   const all = results.flatMap((r) => r.live?.verdicts || []);
-  console.log(`Judge: ${all.filter((v) => v.pass).length}/${all.length} criteria passed (model ${DEFAULT_MODEL}, judge ${JUDGE_MODEL}).`);
+  console.log(`Judge: ${all.filter((v) => v.pass).length}/${all.length} criteria passed (model ${MODEL}, judge ${JUDGE_MODEL}).`);
   const dir = path.join(here, 'results');
   fs.mkdirSync(dir, { recursive: true });
   const file = path.join(dir, `yosef-${new Date().toISOString().replace(/[:.]/g, '-')}.json`);

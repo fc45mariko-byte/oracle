@@ -1,8 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { freshStore, fakeClient, turn } from './helpers.js';
-import { runTurn, buildRequest, SYSTEM_PROMPT } from '../server/intelligence.js';
-import { applyProposal } from '../server/proposals.js';
+import { runTurn, buildRequest, SYSTEM_PROMPT } from '../core/intelligence.js';
+import { applyProposal } from '../core/proposals.js';
 
 test('the system prompt contains the full reasoning protocol and is stable across requests', () => {
   assert.match(SYSTEM_PROMPT, /Step 8 — Preserve uncertainty/);

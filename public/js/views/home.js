@@ -34,8 +34,8 @@ export async function render(el) {
 
   // In-app prompts (spec §9): user-triggered, selective. These are computed from the record, not generated.
   const prompts = [];
-  if (!status.ai.configured) prompts.push(`<div class="banner">Conversation is off: no AI model is configured on the server. The record, timeline and patterns all work. <a href="#/memory" style="text-decoration:underline">How to turn it on</a>.</div>`);
-  if (!status.counts.events) prompts.push(`<div class="card"><p>The record is empty. Start with a moment, or load the Yosef case study from <a href="#/memory" style="color:var(--blue)">Memory</a>.</p></div>`);
+  if (!status.ai.configured) prompts.push(`<div class="banner">Conversation is off until you add an Anthropic API key. The record, timeline and patterns all work without one. <a href="#/memory" style="text-decoration:underline">Add a key</a>.</div>`);
+  if (!status.counts.events) prompts.push(`<div class="card"><p>The record is empty. Start with a moment, or import the Yosef case study file in <a href="#/memory" style="color:var(--blue)">Memory</a>.</p></div>`);
   for (const p of others) {
     const pc = await get(`/people/${p.id}/overview`).catch(() => null);
     if (!pc) continue;

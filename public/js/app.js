@@ -32,12 +32,6 @@ async function route() {
   try {
     await render(el, ...args.filter(Boolean));
   } catch (e) {
-    if (e.status === 401) {
-      el.innerHTML = `<h1>Locked.</h1><p class="sub">This Oracle server requires a passcode.</p><a class="btn primary" href="#/memory">Enter passcode</a>`;
-      if (name !== 'memory') return;
-      await memory.render(el);
-      return;
-    }
     el.innerHTML = `<h1>Something went wrong.</h1><p class="sub">${esc(e.message)}</p>`;
     console.error(e);
   }
@@ -45,4 +39,12 @@ async function route() {
 }
 
 window.addEventListener('hashchange', route);
+document.addEventListener('oracle:save-error', () => {
+  const t = document.getElementById('toast');
+  t.textContent = 'Could not save to this browser’s storage. Export your record from Memory now.';
+  t.classList.add('show');
+});
+if ('serviceWorker' in navigator && location.protocol === 'https:') {
+  navigator.serviceWorker.register('./sw.js').catch(() => { /* offline support is optional */ });
+}
 route();

@@ -1,24 +1,22 @@
 // The intelligence layer: retrieval → prompt → Claude → validated proposals → stored turn.
+// Runs in the browser. The Anthropic client is created with the user's own API key and calls the
+// API directly from the page (the SDK's browser mode).
 
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import Anthropic from '@anthropic-ai/sdk';
 import { betaZodOutputFormat } from '@anthropic-ai/sdk/helpers/beta/zod';
 import { z } from 'zod';
 import { retrieve } from './retrieval.js';
 import { validateProposal, PROPOSAL_KINDS } from './proposals.js';
 import { REQUEST_TYPES, LABELS } from './model.js';
+import { PROTOCOL, APP_INSTRUCTIONS } from './prompts.js';
 
-const here = path.dirname(fileURLToPath(import.meta.url));
-const read = (f) => fs.readFileSync(path.join(here, 'prompts', f), 'utf8');
-
-export const DEFAULT_MODEL = process.env.ORACLE_MODEL || 'claude-opus-5-5';
-export const DEFAULT_EFFORT = process.env.ORACLE_EFFORT || 'high';
+export const DEFAULT_MODEL = 'claude-opus-5-5';
+export const DEFAULT_EFFORT = 'high';
+export const MODELS = ['claude-opus-5-5', 'claude-sonnet-5-5', 'claude-fable-5-1'];
 const HISTORY_TURNS = 16;
 
 // Stable across requests so that it can be cached.
-export const SYSTEM_PROMPT = `${read('protocol.md')}\n\n${read('oracle.md')}`;
+export const SYSTEM_PROMPT = `${PROTOCOL}\n\n${APP_INSTRUCTIONS}`;
 
 export const OracleTurn = z.object({
   request_type: z.enum(REQUEST_TYPES),
@@ -42,20 +40,20 @@ export const OracleTurn = z.object({
   })),
 });
 
-export function aiStatus() {
-  const configured = Boolean(process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_AUTH_TOKEN);
+// `settings` = { apiKey, model, effort }, kept by the caller (in the browser: localStorage on this device).
+export function aiStatus(settings = {}) {
   return {
-    configured,
+    configured: Boolean(settings.apiKey),
     provider: 'Anthropic Claude API',
-    model: DEFAULT_MODEL,
-    effort: DEFAULT_EFFORT,
-    transmits: 'For each message, the retrieved memory context, recent conversation turns and your message are sent to the Anthropic API. Nothing is sent when you browse or edit the record.',
+    model: settings.model || DEFAULT_MODEL,
+    effort: settings.effort || DEFAULT_EFFORT,
+    transmits: 'For each message you send, the retrieved memory context, recent turns of that conversation and your message go from this browser directly to the Anthropic API, using your key. Nothing is sent when you browse or edit the record.',
   };
 }
 
-export function createClient() {
-  if (!aiStatus().configured) return null;
-  return new Anthropic();
+export function createClient(settings = {}) {
+  if (!settings.apiKey) return null;
+  return new Anthropic({ apiKey: settings.apiKey, dangerouslyAllowBrowser: true });
 }
 
 export class AIUnavailable extends Error {}
@@ -89,7 +87,7 @@ export function buildRequest(store, conversation, text, { today = new Date().toI
  * (pending) and Oracle's offered interpretations (logged as "proposed").
  */
 export async function runTurn(store, client, conversationId, text, opts = {}) {
-  if (!client) throw new AIUnavailable('No AI model is configured. Set ANTHROPIC_API_KEY and restart the server.');
+  if (!client) throw new AIUnavailable('No AI model is configured. Add your Anthropic API key in Memory & privacy.');
   const conversation = store.getConversation(conversationId);
   const { params, retrieval } = buildRequest(store, conversation, text, opts);
 

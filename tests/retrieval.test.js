@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { freshStore } from './helpers.js';
-import { retrieve, dateHints } from '../server/retrieval.js';
+import { retrieve, dateHints } from '../core/retrieval.js';
 
 const events = (r) => r.trace.filter((t) => t.type === 'event').map((t) => t.id);
 

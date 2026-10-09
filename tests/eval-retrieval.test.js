@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { freshStore } from './helpers.js';
-import { retrieve } from '../server/retrieval.js';
+import { retrieve } from '../core/retrieval.js';
 import { CASES } from '../evals/yosef-cases.js';
 
 for (const c of CASES) {

@@ -1,7 +1,7 @@
 // Imports the Yosef case study into a store. Idempotent: items whose ids already exist are skipped,
 // so re-importing never overwrites corrections or annotations made since.
 
-import { buildCase } from '../seed/yosef-case.js';
+import { buildCase } from './yosef-case.js';
 
 export function importYosefCase(store) {
   const c = buildCase();

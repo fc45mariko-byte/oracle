@@ -1,5 +1,5 @@
-import { Store, MemoryBackend } from '../server/store.js';
-import { importYosefCase } from '../server/seed.js';
+import { Store, MemoryBackend } from '../core/store.js';
+import { importYosefCase } from '../seed/import.js';
 
 export function freshStore({ seeded = true } = {}) {
   const s = new Store(new MemoryBackend());

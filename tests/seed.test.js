@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { freshStore } from './helpers.js';
 import { EVENTS } from '../seed/yosef-events.js';
-import { importYosefCase } from '../server/seed.js';
-import { COLLECTIONS } from '../server/model.js';
-import { personSummaryStats } from '../server/analysis.js';
+import { importYosefCase } from '../seed/import.js';
+import { COLLECTIONS } from '../core/model.js';
+import { personSummaryStats } from '../core/analysis.js';
 
 const RAW = fs.readFileSync(new URL('../seed/yosef-timeline-original.txt', import.meta.url), 'utf8');
 const squash = (s) => s.replace(/\s+/g, ' ').trim();
@@ -64,4 +64,14 @@ test('computed return intervals match the documented "three weeks" evidence', ()
   assert.equal(days('2026-02-13'), 18);
   assert.equal(days('2026-05-31'), 9);
   assert.equal(days('2026-09-27'), 8);
+});
+
+test('the committed case-study import file matches the seed (run `npm run case-study` after editing seed/)', async () => {
+  const fs = await import('node:fs');
+  const file = JSON.parse(fs.readFileSync(new URL('../case-study/yosef.oracle.json', import.meta.url), 'utf8'));
+  const s = freshStore();
+  for (const c of ['people', 'events', 'patterns', 'questions', 'beliefs', 'interpretations']) {
+    assert.deepEqual(file[c].map((x) => x.id).sort(), s.data[c].map((x) => x.id).sort(), c);
+  }
+  for (const e of file.events) assert.equal(e.original, s.get('events', e.id).original);
 });

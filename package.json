@@ -2,9 +2,10 @@
   "name": "oracle",
   "version": "0.1.0",
   "description": "Oracle: a persistent relationship-intelligence system",
-  "main": "server/index.js",
   "scripts": {
-    "start": "node --env-file-if-exists=.env server/index.js",
+    "build": "node scripts/build.mjs",
+    "start": "node scripts/build.mjs && node scripts/serve.mjs",
+    "case-study": "node scripts/case-study.mjs",
     "test": "node --test tests/*.test.js",
     "eval": "node --env-file-if-exists=.env evals/run.js"
   },
@@ -24,5 +25,8 @@
   "type": "module",
   "engines": {
     "node": ">=22.9"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
   }
 }

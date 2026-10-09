@@ -4,13 +4,16 @@ This document turns the product brief into a technical design and records what i
 
 ## 1. Layers
 
+Oracle is a static web app. Everything runs in the browser, and the only network calls are conversation turns to the Anthropic API.
+
 | Layer | Where | What it does |
 |---|---|---|
-| Interface | `public/` | Mobile-first web app: home tiles, conversation, people, timeline, patterns, questions, memory and privacy. Plain ES modules, no build step. |
-| Data | `server/model.js`, `server/store.js` | Typed entities (zod schemas), a single JSON document on disk, written atomically. Change history and an audit log. |
-| Memory retrieval | `server/retrieval.js`, `server/analysis.js` | Picks the context for each message and records why each item was picked. |
-| Intelligence | `server/intelligence.js`, `server/prompts/` | Builds the request, calls Claude, validates structured output, stores the turn. |
-| Memory updates | `server/proposals.js` | The model proposes changes; nothing is written until you accept. |
+| Interface | `public/` | Mobile-first web app (installable, works offline): home tiles, conversation, people, timeline, patterns, questions, memory and privacy. |
+| Data | `core/model.js`, `core/store.js`, `public/js/idb.js` | Typed entities (zod schemas) in one JSON document, stored in the browser's IndexedDB. Change history and an audit log. Storage backends are pluggable. |
+| API | `core/api.js` | An in-page request handler with the same routes an HTTP API would have, so the UI doesn't know or care where data lives. A server backend can replace it later without touching the views. |
+| Memory retrieval | `core/retrieval.js`, `core/analysis.js` | Picks the context for each message and records why each item was picked. |
+| Intelligence | `core/intelligence.js`, `core/prompts.js` | Builds the request, calls Claude from the browser with your key, validates structured output, stores the turn. |
+| Memory updates | `core/proposals.js` | The model proposes changes; nothing is written until you accept. |
 | Evaluation | `tests/`, `evals/` | Deterministic tests of memory integrity and retrieval; an LLM-judged evaluation set built from the Yosef case. |
 
 ## 2. Entities: the six memory layers
@@ -69,7 +72,7 @@ For the case study, a typical message retrieves 20–50 items and 15–35k chara
    - Proposals are checked against per-kind schemas, and every referenced id must exist. Invalid proposals are shown with the reason and cannot be accepted.
    - Cited ids that don't exist are shown to you as such.
 4. Storage: the user message and its trace, the reply, and the pending proposals are stored. Offered interpretations are logged as `proposed`. On a refusal, a truncation or malformed output, **nothing is stored**.
-5. You accept or reject each proposal. Only an accepted proposal writes to memory, and the UI says "Saved to memory" only after the server confirms.
+5. You accept or reject each proposal. Only an accepted proposal writes to memory, and the UI says "Saved to memory" only after the write to storage has completed.
 
 **Review** is a user-triggered turn with a fixed request: review a person's record and surface only what is genuinely new (strengthened or weakened patterns, questions with new evidence, changed interpretations, errors or gaps). The home screen suggests a review when several events have accumulated since Oracle last interpreted that relationship. The suggestion is computed by code, not generated.
 
@@ -77,12 +80,14 @@ For the case study, a typical message retrieves 20–50 items and 15–35k chara
 
 ### Implemented
 - The data model for all six memory layers, with labels, history, corrections, an audit log and referential cleanup.
-- Persistent storage across sessions: a local JSON file.
+- Persistent storage across sessions in the browser (IndexedDB). The app asks the browser to keep it from eviction.
+- A static, installable web app with offline support, a strict Content Security Policy (scripts only from the site; network only to itself and api.anthropic.com), and deploy configs for Netlify and GitHub Pages.
 - Selective, traceable retrieval, plus computed interval analysis.
 - Conversation with Claude, with your protocol as the system prompt and structured output.
 - Memory proposals with accept/reject, and logged interpretations with retain/revise/reject.
 - User-triggered relationship reviews and in-app prompts.
 - Mobile-first UI:
+  - memory and privacy: API key and model settings;
   - home with tiles and category tabs;
   - person workspace (overview, chronology with intervals, patterns and questions, how views changed, profile editing);
   - timeline with filters;
@@ -93,21 +98,22 @@ For the case study, a typical message retrieves 20–50 items and 15–35k chara
   - 53 dated events, verbatim from your timeline, with inferred years flagged and 24 ambiguities noted;
   - 5 items from the narrative document, kept as separate, provenance-tagged entries;
   - 7 patterns, 9 open questions, 12 dated beliefs, and 6 earlier interpretations from the document.
-- Tests (48) and the evaluation set (14 cases).
+- Tests (53) and the evaluation set (14 cases).
 
 ### Not verified in this build
-- **The live model path has not been exercised against the real API.** The build environment had no API key. The request shape follows the current SDK documentation, and the full turn is tested with a mock client that returns the structured output. Run `npm run eval -- --live` once with a key to confirm and to get a baseline score.
+- **The live model path has not been exercised against the real API.** The build environment had no API key. The request shape follows the current SDK documentation. The full turn is tested in Node with a mock client, and in a headless browser with api.anthropic.com mocked. That browser test confirmed the request goes out with your key, browser-access mode, the structured-output format and the fallback setting, and that the reply renders. It does not prove the real API accepts this exact request from a browser. Run `npm run eval -- --live` once with a key to confirm and to get a baseline score.
 
 ### Not implemented (planned)
-- **Background monitoring, scheduled reviews and notifications.** Oracle only acts when you open it. The review function is already a single entry point (`reviewPrompt` + `runTurn`), so a scheduler can call it later. A server-side job would need the server running continuously, plus a push channel.
-- **Encryption at rest.** The JSON file is plain text. Options: an encrypted SQLite file, or OS-level disk encryption, which is likely already on if your laptop uses FileVault or BitLocker.
+- **Background monitoring, scheduled reviews and notifications.** Oracle only acts when you open it. The review function is already a single entry point (`reviewPrompt` + `runTurn`), so a scheduler can call it later. That would need a server, because a web page cannot run while closed.
+- **Encryption at rest.** The record is stored unencrypted in browser storage. Phones encrypt their storage when locked. An app-level passphrase is possible later (encrypt the document with WebCrypto before saving).
+- **The API key in the browser.** It sits in local storage, readable by any script running on the page. The Content Security Policy allows only the site's own scripts. Treat the key as belonging to that device; set a spending limit on it in the Anthropic console.
 - **Semantic (embedding) retrieval.** Retrieval is lexical with explicit concept expansion and graph and time structure. At the current scale (dozens of events) this works and is easy to inspect. Embeddings become worthwhile once the record has hundreds of events across many people.
-- **Multi-device sync and hosted deployment.**
+- **Multi-device sync.** Each browser has its own record; Export and Import move it between them.
 - **Custom 3D illustrations.** The tile art is SVG, drawn to suggest translucent sculptural forms.
 
 ## 6. Decisions worth knowing
 
-- **Local-first server instead of a browser-only app.** It keeps the API key out of the browser, keeps data in a file you can see, and leaves room for scheduled reviews later.
+- **A browser-only app instead of a server.** You chose this so Oracle can be opened from a link on your phone without a server running somewhere. The trade-offs: the API key lives in the browser, the record is per device, and there is no background work. The original server design remains in git history (the first commit on `oracle-mvp`).
 - **The model never writes memory directly.** Your protocol says "Do not claim to have saved information unless the memory system confirms that it has been saved." Proposals plus explicit acceptance make that true by construction.
 - **Neutral summaries are marked as not your words.** Imported events carry a short summary to make the timeline readable. The original always wins when they differ, and the prompt tells the model so.
 - **Ambiguities are recorded rather than resolved.** Examples:
@@ -117,4 +123,4 @@ For the case study, a typical message retrieves 20–50 items and 15–35k chara
   - the bank-app note's wording, which differs between the timeline and the narrative document.
 
   Correct them on the event page, and the correction is kept beside the original.
-- **The case study is in the repository.** The repository is private. If it is ever made public, or deployed somewhere public such as GitHub Pages, `seed/` would be exposed. Move it out first.
+- **The case study is in the repository, not in the site.** `seed/` and `case-study/` sit in the private repository. The build bundles only `public/` and `core/`, and fails if case-study text appears in the bundle. If the repository itself is ever made public, move those folders out first.

@@ -1,23 +1,41 @@
-// Thin client for the Oracle JSON API.
+// The app's data access. Same shape as an HTTP client, but every call runs in this page against the
+// local store (see core/api.js). Only conversation turns reach the network, to api.anthropic.com.
 
-const PASS_KEY = 'oracle.passcode';
+import { Store } from '../../core/store.js';
+import { createApi } from '../../core/api.js';
+import { IndexedDBBackend } from './idb.js';
 
-export function getPasscode() { try { return localStorage.getItem(PASS_KEY) || ''; } catch { return ''; } }
-export function setPasscode(v) { try { localStorage.setItem(PASS_KEY, v); } catch { /* storage unavailable */ } }
+const SETTINGS_KEY = 'oracle.settings';
+
+// Settings (API key, model) live in localStorage on this device. They are never part of an export.
+const settings = {
+  get() {
+    try { return JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}'); } catch { return {}; }
+  },
+  set(patch) {
+    const next = { ...this.get(), ...patch };
+    for (const k of Object.keys(next)) if (next[k] === '') delete next[k];
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(next));
+  },
+};
+
+let requestPromise = null;
+function ready() {
+  if (!requestPromise) {
+    requestPromise = Store.open(new IndexedDBBackend()).then((store) => {
+      store.onSaveError = (e) => {
+        console.error(e);
+        document.dispatchEvent(new CustomEvent('oracle:save-error', { detail: e }));
+      };
+      return createApi({ store, settings });
+    });
+  }
+  return requestPromise;
+}
 
 export async function api(path, { method = 'GET', body } = {}) {
-  const res = await fetch(`/api${path}`, {
-    method,
-    headers: { 'content-type': 'application/json', 'x-oracle-passcode': getPasscode() },
-    body: body === undefined ? undefined : JSON.stringify(body),
-  });
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) {
-    const err = new Error(data.error || `HTTP ${res.status}`);
-    err.status = res.status;
-    throw err;
-  }
-  return data;
+  const request = await ready();
+  return request(method, path, body);
 }
 
 export const get = (p) => api(p);

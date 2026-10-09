@@ -47,7 +47,7 @@ async function renderList(el, status) {
   });
 }
 
-const aiOffBanner = () => `<div class="banner">No AI model is configured on the server, so Oracle can’t answer yet. Set <span class="mono">ANTHROPIC_API_KEY</span> and restart. You can still use <strong>Preview recall</strong> to see exactly what Oracle would retrieve from memory for a message.</div>`;
+const aiOffBanner = () => `<div class="banner">Oracle can’t answer yet: add your Anthropic API key in <a href="#/memory" style="text-decoration:underline">Memory &amp; privacy</a>. You can still use <strong>Preview recall</strong> to see exactly what Oracle would retrieve from memory for a message.</div>`;
 
 function renderThread(el, conv, status) {
   el.innerHTML = `

@@ -1,57 +1,58 @@
 # Oracle
 
-A persistent relationship-intelligence system. Oracle keeps a structured record of the people in your life, what happened between you, the patterns you suspect, the questions you haven't settled, and how your understanding has changed. When you talk to it, it recovers the relevant history before it answers.
+A persistent relationship-intelligence system, built as a web app. Oracle keeps a structured record of the people in your life, what happened between you, the patterns you suspect, the questions you haven't settled, and how your understanding has changed. When you talk to it, it recovers the relevant history before it answers.
 
 The design and the reasoning behind it are in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
-## Run it
+## How it works
+
+Oracle is a static web app. Once loaded, everything runs in your browser.
+
+- **Your record** lives in that browser's storage (IndexedDB) on that device. There is no Oracle server or account. Another phone or browser starts empty; use Export and Import to move the record.
+- **Conversation** uses your own Anthropic API key, which you enter under Memory & privacy. The browser sends each message, with the memory context retrieved for it, directly to `api.anthropic.com`. The key stays in that browser's local storage and is never included in exports.
+- **Offline:** after the first visit, the app opens without a connection. Conversation needs the network.
+- **Install:** on a phone, use "Add to Home Screen" to install it like an app.
+
+## Host it
+
+The site is just files in `dist/`. Pick one:
+
+- **Netlify** (works with a private repository on the free plan): create a new site from this repository. `netlify.toml` tells it how to build.
+- **GitHub Pages:** in the repository, go to Settings → Pages and set the source to GitHub Actions. `.github/workflows/pages.yml` then deploys on every push to `main`. Pages on a private repository needs a paid GitHub plan, and the published site is public.
+
+In both cases only the app's code is published. The Yosef case study is never included: the build fails if case-study text ends up in the bundle.
+
+## Load the Yosef case study
+
+Download `case-study/yosef.oracle.json` from this repository to your phone. Then in Oracle go to Memory & privacy → Import, choose the file, and tap **Merge**. After you edit `seed/`, regenerate the file with `npm run case-study`.
+
+## Develop
 
 Requires Node 22.9 or later.
 
 ```bash
 npm install
-cp .env.example .env        # add your ANTHROPIC_API_KEY
-npm start                   # http://127.0.0.1:4321
-```
-
-Open **Memory** (top-right menu) and choose **Load the Yosef case study** to import the documented timeline.
-
-Without an API key, everything except conversation works: the record, timeline, people, patterns, questions, corrections, export and deletion. "Preview recall" still shows exactly what Oracle would retrieve for a message.
-
-### On your phone
-
-Oracle listens only on this computer by default. To use it from a phone on the same Wi-Fi network, set `HOST=0.0.0.0` and an `ORACLE_PASSCODE` in `.env`. Then open `http://<computer's LAN address>:4321` and enter the passcode under Memory. The server will not start on a network address without a passcode. Traffic on your LAN is plain HTTP.
-
-## Where your data goes
-
-- **Stored:** one plain JSON file, `data/oracle.json` by default. It is not encrypted and is git-ignored.
-- **Sent:** when you send a message, the retrieved memory context, recent turns of that conversation and your message go to the Anthropic API. Nothing is sent when you browse or edit the record.
-- **Control:** every item can be opened, corrected or deleted in the app. Memory → Export downloads everything as JSON. Memory → Delete all data erases it.
-
-## Tests and evaluation
-
-```bash
-npm test                    # 48 tests: store integrity, verbatim import, retrieval, AI turn (mock model), API
+npm start                   # builds and serves at http://127.0.0.1:4321
+npm test                    # 53 tests
 npm run eval                # offline: does retrieval surface what each Yosef case needs?
-npm run eval -- --live      # also runs each case through Claude and grades it with an LLM judge (uses API credits)
+npm run eval -- --live      # also runs each case through Claude and an LLM judge (needs ANTHROPIC_API_KEY in .env; uses credits)
 ```
-
-`seed/yosef-timeline-original.txt` holds the timeline exactly as it was pasted. A test checks that every imported event's original text appears in it word for word, and that no line was dropped.
 
 ## Layout
 
 ```
-server/
+core/              runs in the browser, tested in Node
   model.js         entities, schemas, epistemic labels
-  store.js         persistence (JSON file), history, corrections, audit log
+  store.js         the record: history, corrections, audit log; pluggable storage backend
   retrieval.js     selective, traceable memory retrieval
   analysis.js      computed facts (contact intervals, who cut contact)
   intelligence.js  prompt assembly, Claude call, structured output
   proposals.js     memory changes the model proposes and you accept
-  prompts/         the reasoning protocol (verbatim) and app-specific instructions
-  index.js         HTTP server and JSON API
-public/            mobile-first web app (no build step)
-seed/              the Yosef case study
-evals/             evaluation cases and runner
-tests/
+  prompts.js       the reasoning protocol (verbatim) and app-specific instructions
+  api.js           in-page request handler used by the UI
+public/            the app: HTML, CSS, views, IndexedDB backend
+scripts/           build, local server, case-study export
+seed/              the Yosef case study (source)
+case-study/        the case study as an importable file
+evals/  tests/
 ```

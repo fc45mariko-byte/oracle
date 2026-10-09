@@ -1,43 +1,29 @@
-// Persistent store. One JSON document on disk, written atomically (write temp file, then rename).
-// The file is plain JSON so the user can inspect it directly. It is NOT encrypted.
+// The Oracle store: one JSON document holding every memory layer.
 //
-// The Store class is storage-agnostic: it takes a `backend` with load()/save(), so tests use an
-// in-memory backend and a future version can swap in SQLite or a remote database.
+// Storage-agnostic: it takes a `backend` with load() and save(data). In the browser the backend is
+// IndexedDB (public/js/idb.js); tests and evals use the in-memory backend below. save() may return a
+// promise; saves are chained so they land in order, and `flush()` waits for the last one.
 
-import fs from 'node:fs';
-import path from 'node:path';
 import {
   COLLECTIONS, AnnotationInput, emptyStore, newId, now, SCHEMA_VERSION, byChronology,
 } from './model.js';
-
-export class FileBackend {
-  constructor(file) { this.file = file; }
-  load() {
-    if (!fs.existsSync(this.file)) return null;
-    return JSON.parse(fs.readFileSync(this.file, 'utf8'));
-  }
-  save(data) {
-    fs.mkdirSync(path.dirname(this.file), { recursive: true });
-    const tmp = `${this.file}.${process.pid}.tmp`;
-    fs.writeFileSync(tmp, JSON.stringify(data, null, 2));
-    fs.renameSync(tmp, this.file);
-  }
-  describe() { return { kind: 'json-file', path: path.resolve(this.file), encrypted: false }; }
-}
 
 export class MemoryBackend {
   constructor(initial = null) { this.data = initial; }
   load() { return this.data ? structuredClone(this.data) : null; }
   save(data) { this.data = structuredClone(data); }
-  describe() { return { kind: 'memory', path: null, encrypted: false }; }
+  describe() { return { kind: 'memory', location: 'in memory (tests)', encrypted: false }; }
 }
 
 export class NotFound extends Error {}
 
 export class Store {
-  constructor(backend) {
+  // For synchronous backends. Use Store.open() for backends whose load() is async.
+  constructor(backend, data = undefined) {
     this.backend = backend;
-    this.data = backend.load() || emptyStore();
+    this.saving = Promise.resolve();
+    this.onSaveError = (e) => console.error('Oracle: saving failed', e);
+    this.data = (data === undefined ? backend.load() : data) || emptyStore();
     if (this.data.schemaVersion !== SCHEMA_VERSION) {
       throw new Error(`Unsupported store schema version ${this.data.schemaVersion}`);
     }
@@ -54,7 +40,16 @@ export class Store {
     });
   }
 
-  persist() { this.backend.save(this.data); }
+  static async open(backend) {
+    return new Store(backend, (await backend.load()) || null);
+  }
+
+  persist() {
+    const snapshot = structuredClone(this.data);
+    this.saving = this.saving.then(() => this.backend.save(snapshot)).catch((e) => this.onSaveError(e));
+  }
+
+  flush() { return this.saving; }
 
   audit(action, collection, id, detail = {}) {
     this.data.log.push({ at: now(), action, collection, id, ...detail });
@@ -228,6 +223,12 @@ export class Store {
       for (const c of [...Object.keys(COLLECTIONS), 'conversations']) {
         const have = new Set(this.data[c].map((x) => x.id));
         for (const x of data[c] || []) if (!have.has(x.id)) this.data[c].push(structuredClone(x));
+      }
+      // The device always starts with a blank self profile; take the imported one if it has content.
+      const incomingSelf = (data.people || []).find((p) => p.isSelf);
+      const mine = this.data.people.find((p) => p.isSelf);
+      if (incomingSelf && mine && mine.id === incomingSelf.id && !mine.explicitStatements.length && !mine.notes) {
+        Object.assign(mine, structuredClone(incomingSelf));
       }
     }
     this.audit('import', '*', null, { mode });

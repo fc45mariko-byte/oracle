@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { freshStore } from './helpers.js';
-import { currentEvent } from '../server/model.js';
+import { currentEvent } from '../core/model.js';
 
 test('there is always a self profile', () => {
   const s = freshStore({ seeded: false });

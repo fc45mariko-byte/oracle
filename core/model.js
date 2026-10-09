@@ -10,7 +10,6 @@
 // Plus conversations (the dialogue record) and settings.
 
 import { z } from 'zod';
-import { randomUUID } from 'node:crypto';
 
 export const SCHEMA_VERSION = 1;
 
@@ -28,7 +27,7 @@ export const REQUEST_TYPES = [
 ];
 
 export const now = () => new Date().toISOString();
-export const newId = (prefix) => `${prefix}_${randomUUID().slice(0, 8)}`;
+export const newId = (prefix) => `${prefix}_${globalThis.crypto.randomUUID().slice(0, 8)}`;
 
 // Dates are partial ISO strings: "2025", "2025-05", "2025-05-13". `datePrecision`
 // says how much of it is known; `dateNote` explains inferences (e.g. an inferred year).
