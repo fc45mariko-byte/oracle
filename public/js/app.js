@@ -10,6 +10,7 @@ import * as patterns from './views/patterns.js';
 import * as questions from './views/questions.js';
 import * as mind from './views/mind.js';
 import * as memory from './views/memory.js';
+import * as sim from './views/sim.js';
 
 const routes = {
   '': [home.render, 'home'],
@@ -22,6 +23,7 @@ const routes = {
   questions: [questions.render, 'home'],
   mind: [mind.render, 'home'],
   memory: [memory.render, 'memory'],
+  sim: [sim.render, 'talk'],
 };
 
 let first = true;

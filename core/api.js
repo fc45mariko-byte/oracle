@@ -8,6 +8,7 @@ import { runTurn, createClient, aiStatus, reviewPrompt, AIUnavailable } from './
 import { applyProposal, validateProposal } from './proposals.js';
 import { personSummaryStats } from './analysis.js';
 import { retrieve } from './retrieval.js';
+import { runSimTurn } from './simulation.js';
 
 export class BadRequest extends Error {}
 
@@ -90,9 +91,28 @@ export function createApi({ store, settings, client: clientOverride, getClient, 
 
   // ---- conversations --------------------------------------------------------
   route('GET', '/conversations', () => store.data.conversations
+    .filter((c) => c.kind !== 'simulation')
     .map(({ messages, ...c }) => ({ ...c, messageCount: messages.length }))
     .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt)));
-  route('POST', '/conversations', (_, body) => store.createConversation(body || {}));
+  route('POST', '/conversations', (_, body) => store.createConversation({ title: body?.title, personIds: body?.personIds }));
+
+  // ---- simulations: a chat with a person reconstructed from the record ------------
+  route('GET', '/simulations', () => store.data.conversations
+    .filter((c) => c.kind === 'simulation')
+    .map(({ messages, ...c }) => ({ ...c, messageCount: messages.length, last: messages.at(-1)?.text || '' }))
+    .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt)));
+  route('POST', '/simulations', (_, body) => {
+    const p = store.get('people', body.personId);
+    if (p.isSelf) throw new BadRequest('Choose someone other than yourself');
+    return store.createConversation({ kind: 'simulation', personIds: [p.id], title: `Simulation · ${p.name}` });
+  });
+  route('GET', '/simulations/:id', ({ id }) => store.getConversation(id));
+  route('DELETE', '/simulations/:id', ({ id }) => { store.deleteConversation(id); return { ok: true }; });
+  route('POST', '/simulations/:id/messages', async ({ id }, body) => {
+    if (!body.text?.trim()) throw new BadRequest('Empty message');
+    const s = settings.get();
+    return runSimTurn(store, client(), id, body.text.trim(), { model: s.model || undefined, effort: s.effort || undefined });
+  });
   route('GET', '/conversations/:id', ({ id }) => store.getConversation(id));
   route('DELETE', '/conversations/:id', ({ id }) => { store.deleteConversation(id); return { ok: true }; });
   route('POST', '/conversations/:id/messages', async ({ id }, body) => {

@@ -178,8 +178,9 @@ export class Store {
 
   // ---- conversations --------------------------------------------------------
 
-  createConversation({ title = '', personIds = [] } = {}) {
-    const c = { id: newId('c'), title, personIds, createdAt: now(), updatedAt: now(), messages: [] };
+  // kind: 'oracle' (a conversation with Oracle) or 'simulation' (a simulated chat with a person).
+  createConversation({ title = '', personIds = [], kind = 'oracle' } = {}) {
+    const c = { id: newId(kind === 'simulation' ? 'sim' : 'c'), kind, title, personIds, createdAt: now(), updatedAt: now(), messages: [] };
     this.data.conversations.push(c);
     this.persist();
     return c;

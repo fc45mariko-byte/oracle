@@ -69,7 +69,7 @@ function overview(o) {
     <div class="section-head"><h2>Open questions</h2></div>
     ${openQs.slice(0, 4).map((q) => `<a class="card" href="#/questions/${q.id}"><p>${esc(q.text)}</p></a>`).join('') || '<div class="empty">None.</div>'}
     ${p.unknowns?.length ? `<div class="section-head"><h2>Unknown</h2></div><div class="card">${p.unknowns.map((u) => `<p>${label('unknown')} ${esc(u)}</p>`).join('')}</div>` : ''}
-    ${p.isSelf ? '' : `<a class="btn primary" style="display:inline-block;margin-top:14px" href="#/talk/new/review/${p.id}">Review this relationship</a>`}`;
+    ${p.isSelf ? '' : `<div class="row" style="margin-top:14px"><a class="btn primary" href="#/talk/new/review/${p.id}">Review this relationship</a><a class="btn" href="#/sim/${p.id}">Simulated chat with ${esc(p.name)}</a></div>`}`;
 }
 
 function chronology(o) {

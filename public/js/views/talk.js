@@ -38,7 +38,7 @@ async function renderList(el, status) {
     <h1>Let’s look<br>closely.</h1>
     <p class="sub">A person, a conversation, a recurring dynamic, a theory you want to test, or just something you felt.</p>
     ${status.ai.configured ? '' : aiOffBanner()}
-    <button class="btn primary" id="newConv">New conversation</button>
+    <div class="row"><button class="btn primary" id="newConv">New conversation</button><a class="btn" href="#/sim">Simulated chats</a></div>
     <div class="section-head"><h2>Conversations</h2></div>
     ${convs.length ? convs.map((c) => `<a class="card" href="#/talk/${c.id}"><p>${esc(c.title || 'Untitled')}</p><div class="meta">${esc(fmtDate(c.updatedAt.slice(0, 10)))} · ${c.messageCount} messages</div></a>`).join('') : '<div class="empty">Nothing yet.</div>'}
   `;

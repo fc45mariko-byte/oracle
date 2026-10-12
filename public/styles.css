@@ -198,3 +198,11 @@ details[open] > summary::before { content: "▾ "; }
 .dialog p { color: var(--text-2); font-size: 14px; margin: 0 0 14px; }
 @media (min-width: 720px) { .dialog-wrap { place-items: center; } }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+/* simulated chat */
+.chat { display: flex; flex-direction: column; gap: 6px; padding-bottom: 12px; }
+.bubble { max-width: 80%; padding: 9px 13px; border-radius: 20px; font-size: 15px; line-height: 1.38; white-space: pre-wrap; overflow-wrap: anywhere; }
+.bubble.me { align-self: flex-end; background: #3d63c9; color: #fff; border-bottom-right-radius: 6px; }
+.bubble.them { align-self: flex-start; background: var(--panel-2); border: 1px solid var(--line); color: var(--text); border-bottom-left-radius: 6px; }
+.bubble.me + .bubble.them, .bubble.them + .bubble.me { margin-top: 8px; }
+.typing { align-self: flex-start; color: var(--muted); font-size: 12.5px; padding: 6px 4px; animation: pulse 1.6s ease-in-out infinite; }
