@@ -22,10 +22,10 @@ const MESSAGES = {
 export function createSampleClient(sample, getSettings) {
   return {
     // Plain-text completion (used by the chat simulation). Quicker tier unless the user chose one.
-    async completeText({ system, messages }) {
+    async completeText({ system, messages, tier }) {
       const s = getSettings();
       try {
-        const { text } = await sample([{ role: 'user', content: system }, ...messages], { modelTier: s.tier || 'default', cache: false });
+        const { text } = await sample([{ role: 'user', content: system }, ...messages], { modelTier: tier || s.tier || 'default', cache: false });
         return text;
       } catch (e) {
         throw new Error(MESSAGES[e?.code] || `Claude could not answer (${e?.code || 'error'}). Try again.`);

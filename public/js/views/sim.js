@@ -1,6 +1,6 @@
 // Simulated chat with a person, reconstructed from the record. Messages are in French.
 import { get, post, del } from '../api.js';
-import { esc, toast, ask, fmtDate } from '../ui.js';
+import { esc, toast, ask, fmtDate, md } from '../ui.js';
 import { navigate } from '../router.js';
 
 export async function render(el, id) {
@@ -27,10 +27,15 @@ async function renderList(el) {
 }
 
 function bubbles(m) {
+  if (m.role === 'feedback') return feedbackCard(m);
   if (m.role === 'user') return `<div class="bubble me">${esc(m.text)}</div>`;
   return m.text.split('\n').map((l) => l.trim()).filter(Boolean).map((l) => (l.toLowerCase().startsWith('[oracle]')
     ? `<div class="banner">${esc(l.replace(/^\[oracle\]\s*/i, ''))}</div>`
     : `<div class="bubble them">${esc(l)}</div>`)).join('');
+}
+
+function feedbackCard(m) {
+  return `<div class="feedback"><div class="head"><div class="orb"></div><span class="small">Oracle · retour sur la conversation</span></div><div class="body">${md(m.text)}</div></div>`;
 }
 
 function renderChat(el, sim, person, status) {
@@ -45,7 +50,7 @@ function renderChat(el, sim, person, status) {
         <textarea id="input" rows="1" placeholder="Message…"></textarea>
         <button class="send" id="send" aria-label="Send">↑</button>
       </div>
-      <div class="row" style="margin-top:8px;justify-content:flex-end"><button class="btn ghost sm" id="delSim">Delete chat</button></div>
+      <div class="row" style="margin-top:8px;justify-content:space-between"><button class="btn sm" id="feedback">Feedback : l’effet de tes messages</button><button class="btn ghost sm" id="delSim">Delete chat</button></div>
     </div>`;
   const input = el.querySelector('#input');
   const chat = el.querySelector('#chat');
@@ -75,6 +80,23 @@ function renderChat(el, sim, person, status) {
       el.querySelector('#send').disabled = false;
       window.scrollTo(0, document.body.scrollHeight);
     }
+  });
+  el.querySelector('#feedback').addEventListener('click', async (e) => {
+    if (!sim.messages.some((m) => m.role === 'user')) { toast('Écris-lui au moins un message d’abord'); return; }
+    const btn = e.currentTarget;
+    btn.disabled = true;
+    chat.insertAdjacentHTML('beforeend', '<div class="thinking" id="fbThinking"><div class="orb"></div>Oracle relit la conversation…</div>');
+    window.scrollTo(0, document.body.scrollHeight);
+    try {
+      const out = await post(`/simulations/${sim.id}/feedback`);
+      sim.messages.push(out.feedback);
+      el.querySelector('#fbThinking')?.remove();
+      chat.insertAdjacentHTML('beforeend', feedbackCard(out.feedback));
+      chat.lastElementChild.scrollIntoView({ block: 'start' });
+    } catch (err) {
+      el.querySelector('#fbThinking')?.remove();
+      toast(err.message);
+    } finally { btn.disabled = false; }
   });
   el.querySelector('#delSim').addEventListener('click', async () => {
     if (!await ask({ title: 'Delete this chat?', body: 'Only the simulated chat is deleted. Your record is unchanged.', confirmLabel: 'Delete chat', danger: true })) return;

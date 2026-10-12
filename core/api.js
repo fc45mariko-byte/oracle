@@ -8,7 +8,7 @@ import { runTurn, createClient, aiStatus, reviewPrompt, AIUnavailable } from './
 import { applyProposal, validateProposal } from './proposals.js';
 import { personSummaryStats } from './analysis.js';
 import { retrieve } from './retrieval.js';
-import { runSimTurn } from './simulation.js';
+import { runSimTurn, runSimFeedback } from './simulation.js';
 
 export class BadRequest extends Error {}
 
@@ -99,7 +99,10 @@ export function createApi({ store, settings, client: clientOverride, getClient, 
   // ---- simulations: a chat with a person reconstructed from the record ------------
   route('GET', '/simulations', () => store.data.conversations
     .filter((c) => c.kind === 'simulation')
-    .map(({ messages, ...c }) => ({ ...c, messageCount: messages.length, last: messages.at(-1)?.text || '' }))
+    .map(({ messages, ...c }) => {
+      const chat = messages.filter((m) => m.role === 'user' || m.role === 'sim');
+      return { ...c, messageCount: chat.length, last: chat.at(-1)?.text || '' };
+    })
     .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt)));
   route('POST', '/simulations', (_, body) => {
     const p = store.get('people', body.personId);
@@ -108,6 +111,10 @@ export function createApi({ store, settings, client: clientOverride, getClient, 
   });
   route('GET', '/simulations/:id', ({ id }) => store.getConversation(id));
   route('DELETE', '/simulations/:id', ({ id }) => { store.deleteConversation(id); return { ok: true }; });
+  route('POST', '/simulations/:id/feedback', async ({ id }) => {
+    const s = settings.get();
+    return runSimFeedback(store, client(), id, { model: s.model || undefined, effort: s.effort || undefined });
+  });
   route('POST', '/simulations/:id/messages', async ({ id }, body) => {
     if (!body.text?.trim()) throw new BadRequest('Empty message');
     const s = settings.get();

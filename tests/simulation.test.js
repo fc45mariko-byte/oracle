@@ -80,3 +80,23 @@ test('loading the case study again fills in voice samples on an existing profile
   device.importAll(freshStore().exportAll(), { mode: 'merge' });
   assert.ok(device.get('people', 'p_yosef').voiceSamples.length >= 5);
 });
+
+test('feedback reads the whole simulated chat with the dossier, is stored apart, and is not replayed to the character', async () => {
+  const store = freshStore();
+  const calls = [];
+  const client = { completeText: async (req) => { calls.push(req); return req.tier === 'complex' ? '**En bref** : ton message relance la poursuite.' : 'mdr t’es sérieuse'; } };
+  const api = createApi({ store, settings, client });
+  const sim = await api('POST', '/simulations', { personId: 'p_yosef' });
+  await assert.rejects(api('POST', `/simulations/${sim.id}/feedback`), /at least one message/);
+  await api('POST', `/simulations/${sim.id}/messages`, { text: 'tu me manques' });
+  const fb = await api('POST', `/simulations/${sim.id}/feedback`);
+  assert.equal(fb.feedback.role, 'feedback');
+  const req = calls[1];
+  assert.equal(req.tier, 'complex');
+  assert.match(req.system, /Step 8 — Preserve uncertainty/);
+  assert.match(req.system, /effet que ses messages/);
+  assert.match(req.messages[0].content, /elle: tu me manques/);
+  assert.match(req.messages[0].content, /yosef \(simulé\): mdr t’es sérieuse/);
+  await api('POST', `/simulations/${sim.id}/messages`, { text: 'et maintenant ?' });
+  assert.ok(!calls[2].messages.some((m) => m.content.includes('En bref')), 'feedback is not sent to the character');
+});

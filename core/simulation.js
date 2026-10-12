@@ -6,6 +6,7 @@
 import { currentEvent } from './model.js';
 import { retrieve } from './retrieval.js';
 import { AIUnavailable } from './intelligence.js';
+import { PROTOCOL } from './prompts.js';
 
 const HISTORY = 30;
 
@@ -70,10 +71,10 @@ ${personaDossier(store, personId)}`;
 }
 
 // Plain-text completion through whichever client is configured.
-async function completeText(client, { system, messages, model, effort }) {
-  if (typeof client.completeText === 'function') return client.completeText({ system, messages });
+async function completeText(client, { system, messages, model, effort, tier, maxTokens = 2000 }) {
+  if (typeof client.completeText === 'function') return client.completeText({ system, messages, tier });
   const res = await client.messages.create({
-    model, max_tokens: 2000, system, messages, output_config: { effort: effort === 'xhigh' ? 'high' : (effort || 'medium') },
+    model, max_tokens: maxTokens, system, messages, output_config: { effort: effort === 'xhigh' ? 'high' : (effort || 'medium') },
   });
   if (res.stop_reason === 'refusal') throw new Error('Claude declined to continue this simulation.');
   return res.content.filter((b) => b.type === 'text').map((b) => b.text).join('').trim();
@@ -84,7 +85,7 @@ export async function runSimTurn(store, client, simId, text, { model = 'claude-o
   const sim = store.getConversation(simId);
   const personId = sim.personIds[0];
   const r = retrieve(store, { text, focusPersonIds: [personId], maxEvents: 6 });
-  const history = sim.messages.slice(-HISTORY).map((m) => ({ role: m.role === 'sim' ? 'assistant' : 'user', content: m.text }));
+  const history = sim.messages.filter((m) => m.role === 'user' || m.role === 'sim').slice(-HISTORY).map((m) => ({ role: m.role === 'sim' ? 'assistant' : 'user', content: m.text }));
   while (history.length && history[0].role !== 'user') history.shift();
   const system = simulationInstructions(store, personId);
   const latest = `${text}\n\n<contexte_oracle date="${today}">\nÉvénements du dossier en lien avec ce message (pour toi seulement, ne les cite pas mot pour mot) :\n${r.trace.filter((t) => t.type === 'event').map((t) => { const e = currentEvent(store.get('events', t.id)); return `- ${e.date || '?'} · ${e.title} : ${e.summary || e.original}`; }).join('\n')}\n</contexte_oracle>`;
@@ -94,4 +95,40 @@ export async function runSimTurn(store, client, simId, text, { model = 'claude-o
   const user = store.appendMessage(simId, { role: 'user', text });
   const sim2 = store.appendMessage(simId, { role: 'sim', text: reply });
   return { user, sim: sim2 };
+}
+
+// ---- Feedback on a simulated conversation -----------------------------------------------------
+// Oracle (not the character) reads the conversation and says what effect her messages could have,
+// judged against what the record shows about him. In French, since the conversation is in French.
+
+export function feedbackInstructions() {
+  return `${PROTOCOL}
+
+# Ta tâche ici
+
+Tu es Oracle. L'utilisatrice vient d'avoir une conversation SIMULÉE avec une reconstruction de lui, construite à partir du dossier. Elle te demande un retour : l'effet que ses messages à elle pourraient produire sur lui, le vrai, et sur la dynamique entre eux.
+
+Réponds en français, en t'adressant à elle (« tu »). Ton direct, précis, sans morale ni jugement sur ses désirs ou sa sexualité, sans lui dire ce qu'elle « devrait » vouloir.
+
+Structure :
+1. **En bref** : deux ou trois phrases sur l'effet d'ensemble probable de la conversation.
+2. **Message par message** : pour chacun de SES messages qui compte (pas forcément tous), cite-le entre guillemets puis dis l'effet probable sur lui, en t'appuyant sur ce que le dossier montre de ses réactions (dates, schémas, ses vrais messages). Donne au moins une lecture alternative quand c'est plausible. Indique ce qui, d'après le dossier, a déjà produit un effet semblable.
+3. **La dynamique** : qui poursuit, qui se retire, qui fixe le rythme ; les schémas du dossier qui se rejouent (ou qui ne se rejouent pas).
+4. **Ce que la simulation ne peut pas dire** : les réponses simulées ne sont pas les siennes. Signale où elles s'écartent probablement de lui, et ce qui reste inconnu.
+
+Distingue ce qui est établi par le dossier de ce que tu infères. Pas de diagnostic. Pas de liste de conseils sauf si un point pratique découle clairement de l'analyse ; dans ce cas, une ou deux options au plus, présentées comme des options.`;
+}
+
+export async function runSimFeedback(store, client, simId, { model = 'claude-opus-5-5', effort } = {}) {
+  if (!client) throw new AIUnavailable('Claude isn’t connected here. See Memory & privacy.');
+  const sim = store.getConversation(simId);
+  const personId = sim.personIds[0];
+  const p = store.get('people', personId);
+  const turns = sim.messages.filter((m) => m.role === 'user' || m.role === 'sim');
+  if (!turns.some((m) => m.role === 'user')) throw new Error('Write at least one message before asking for feedback.');
+  const transcript = turns.map((m) => `${m.role === 'user' ? 'elle' : `${p.name.toLowerCase()} (simulé)`}: ${m.text}`).join('\n');
+  const content = `<dossier>\n${personaDossier(store, personId)}\n</dossier>\n\n<conversation_simulee>\n${transcript}\n</conversation_simulee>\n\nDonne-moi ton retour sur cette conversation.`;
+  const text = await completeText(client, { system: feedbackInstructions(), messages: [{ role: 'user', content }], model, effort, tier: 'complex', maxTokens: 6000 });
+  if (!text) throw new Error('No feedback came back. Try again.');
+  return { feedback: store.appendMessage(simId, { role: 'feedback', text: text.trim(), afterMessages: turns.length }) };
 }

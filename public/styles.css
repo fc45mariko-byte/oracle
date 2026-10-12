@@ -206,3 +206,11 @@ details[open] > summary::before { content: "▾ "; }
 .bubble.them { align-self: flex-start; background: var(--panel-2); border: 1px solid var(--line); color: var(--text); border-bottom-left-radius: 6px; }
 .bubble.me + .bubble.them, .bubble.them + .bubble.me { margin-top: 8px; }
 .typing { align-self: flex-start; color: var(--muted); font-size: 12.5px; padding: 6px 4px; animation: pulse 1.6s ease-in-out infinite; }
+
+.feedback { align-self: stretch; background: var(--panel); border: 1px solid #c8b7ff40; border-radius: 20px; padding: 14px 16px; margin: 10px 0; }
+.feedback .head { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+.feedback .head .orb { width: 22px; height: 22px; }
+.feedback .body { font-size: 14.5px; line-height: 1.55; color: var(--text); }
+.feedback .body p { margin: 0 0 10px; }
+.feedback .body ul, .feedback .body ol { padding-left: 20px; margin: 0 0 10px; }
+.feedback .body blockquote { border-left: 2px solid var(--line-2); margin: 0 0 10px; padding-left: 10px; color: var(--text-2); }
