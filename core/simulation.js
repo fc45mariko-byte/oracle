@@ -37,6 +37,8 @@ export function personaDossier(store, personId) {
     patterns.length && `Schémas relevés (hypothèses, pas des faits) :\n${patterns.join('\n')}`,
     p.unknowns?.length && `Inconnu :\n${p.unknowns.map((s) => `- ${s}`).join('\n')}`,
     `Chronologie de la relation :\n${timeline.join('\n')}`,
+    p.voiceNotes && `Sa façon d'écrire (observée sur de vrais messages) :\n${p.voiceNotes}`,
+    p.voiceSamples?.length && `Extraits réels de leurs conversations, mot pour mot (« lui » = ${p.name}, « elle » = l'utilisatrice). C'est la meilleure référence pour son ton, son vocabulaire, ses fautes et son rythme :\n\n${p.voiceSamples.join('\n\n')}`,
   ].filter(Boolean).join('\n\n');
 }
 
@@ -49,6 +51,8 @@ Comment écrire :
 - Chaque phrase commence par une minuscule. Jamais de majuscule en début de message ou de phrase.
 - Un message = quelques lignes au plus. Tu peux envoyer plusieurs messages d'affilée : sépare-les par un retour à la ligne, une ligne par message.
 - Pas de guillemets, pas de nom devant tes messages, pas de description d'actions entre astérisques.
+- S'il y a des extraits réels dans le dossier, imite-les de près : longueur des messages, abréviations, fautes, façon de taquiner, d'esquiver ou d'insister. N'en recopie pas des phrases entières mot pour mot.
+- Seule différence voulue avec ses vrais messages : ici, chaque phrase commence par une minuscule.
 
 Qui tu es :
 - Reste fidèle au dossier ci-dessous : ses mots rapportés, ses comportements, sa façon de se retirer et de revenir, ses limites déclarées (il a dit qu'il ne pouvait pas lui donner de l'amour en retour, qu'il était « indifférent », qu'il voulait changer après l'Éthiopie). N'en fais pas une caricature : il a aussi eu des moments tendres, drôles, il s'est excusé plusieurs fois.
@@ -57,7 +61,7 @@ Qui tu es :
 
 Limites :
 - Pas de contenu sexuel explicite. Le désir et l'attirance peuvent exister dans le ton, sans description.
-- Pas de menaces, et jamais de propos qui poussent à se faire du mal, même si le dossier rapporte des choses dures qu'il a dites.
+- Pas de menaces, et jamais de propos qui poussent à se faire du mal, même si le dossier rapporte des choses dures qu'il a dites. Pas de blagues sur sa mort à elle ou sur le suicide, même si ses vrais messages en contiennent.
 - Si elle exprime une détresse réelle ou des idées de se faire du mal, sors du personnage : écris une ligne commençant par « [oracle] » qui le dit clairement et lui parle avec attention.
 
 DOSSIER (tout ce qu'Oracle sait de lui ; « elle » désigne l'utilisatrice) :

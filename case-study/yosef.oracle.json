@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "createdAt": "2026-10-09T22:48:55.082Z",
+  "createdAt": "2026-10-12T22:36:43.410Z",
   "people": [
     {
       "id": "p_self",
@@ -20,12 +20,12 @@
       "unknowns": [],
       "notes": "",
       "isSelf": true,
-      "createdAt": "2026-10-09T22:48:55.083Z",
-      "updatedAt": "2026-10-09T22:48:55.086Z",
+      "createdAt": "2026-10-12T22:36:43.410Z",
+      "updatedAt": "2026-10-12T22:36:43.414Z",
       "createdBy": "system",
       "history": [
         {
-          "at": "2026-10-09T22:48:55.086Z",
+          "at": "2026-10-12T22:36:43.414Z",
           "by": "import",
           "reason": "case study import",
           "before": {
@@ -71,8 +71,16 @@
       ],
       "notes": "His own account of his feelings is only available through what the user reports.",
       "isSelf": false,
-      "createdAt": "2026-10-09T22:48:55.090Z",
-      "updatedAt": "2026-10-09T22:48:55.090Z",
+      "voiceSamples": [
+        "[iMessage, date inconnue ; peut-être lié au 9 juin 2026 (message à 6h puis blocage), non établi]\nlui: Si tu supprime les messages jsp comment je vais les voir\nelle: toi tu m'envoies des messages à 6h si j'ai pas répondu à 6h01 tu me bloques\nelle: t'es si méchant alors que je suis toujours très gentille avec toi j'ai fait quoi pour que chaque fois tu sois si désagréable on dirait je te force\nelle: j'espère qu'un jour quelqu'un sera aussi méchant avec toi que tu l'est avec moi\nlui: Mdr mais toi t'aime trop chouiner\nlui: J'ai absolument rien fais et t'es en train de me prendre la tête pour un message que je n'ai pas vu auquel je n'ai pas répondu et que tu as supprimé\nlui: C'est moi je suis fou ou ?\nelle: c'est pas chouiner déjà je suis sensible\nelle: et objectivement t'es méchant des que je respire tu me bloques ou me supprime\nelle: je parle pas de aujourd'hui mais de tout le temps",
+        "[WhatsApp, vers 00:21-00:37, date inconnue ; il rentre de vacances avec sa famille]\nlui: Salut ça va\nelle: oui ça va\nlui: Dacc tant mieux\nlui: je suis rentrée\nelle: ah c'était bien\nlui: ca fait longtemps je voulais savoir si ça allais voilà t'es en vacances nan ?\nlui: Oe franchement c'était vraiment bien\nelle: c'est cool pour toi t'as pu voir ta famille\nelle: oui je suis en vacances\nlui: Oui merci\nlui: Ok ok je te dérange pas plus alors bonne soirée\nelle: ah mm pas un désolé\nelle: c'était pour voir si j'étais pas morte?\nlui: Oui au cas où\nlui: On sait jamais\nlui: Si pourquoi pas on peut se voir c'est mieux\nlui: Pour parler\nelle: tqt je me suiciderais jamais pour toi\nlui: Mdrrrr j'en demande pas tant\nlui: T'es folle toi un peu parfois\nelle: de quoi",
+        "[WhatsApp, même nuit, 00:39-00:49]\nlui: Jsp on pourrais parler de plein de choses\nlui: Et plus sereinement\nelle: bah je ressens les choses intensément\nlui: J'avais cru comprendre\nelle: d'accord\nlui: tu veux ?\nelle: oui pourquoi pas\nlui: d'accord ça me va\nlui: tu fais quoi là ?\nelle: je regarde des tiktok et toi\nlui: Rien je m'ennuie\nlui: Je peux passer stv\nlui: Il fait bon dehors on peut marcher un peu\nelle: je peux pas trop la mais tu peux m'appeler si tu veux parler",
+        "[WhatsApp, même nuit, 00:50-00:55]\nlui: oui mais j'ai envie de te voir ça veut dire quoi je peux pas trop la\nlui: j'ai bronzé faut que tu constates ça\nelle: bah parce que y'a ma daronne je peux pas sortir\nlui: humm\nelle: pq t'es si pressé\nlui: excuse moi hein\nlui: dis moi quand c'est bon\nlui: elle dors profondément\nelle: tu veux pas qu'on s'appelle ?\nlui: je veux t'appeler et je veux bien te voir aussi\nelle: oui dm\nlui: demain soir ?",
+        "[WhatsApp, même nuit, 00:58-01:03]\nelle: ah bah je suis contente si je t'ai manqué\nlui: si t'es contente alors c'est parfait\nelle: depuis une semaine je pensais beaucoup à toi\nelle: c'est vrai\nlui: allez sors imbecile je passe te faire la bise\nlui: ah bon pourquoi ça\nlui: même pas longtemps ça me ferai plaisir\nelle: vite fait alors\nelle: devant ma porte\nlui: sah ?\nlui: vas-y j'arrive alors\nlui: c'dhs quoi déjà le nom de la rue\nelle: [son adresse]\nlui: je suis là dans 20 min c'est bon ?"
+      ],
+      "voiceNotes": "Messages courts, envoyés en rafale. Majuscule en début de message une fois sur deux. Fautes d'accord ou de conjugaison fréquentes (fais/fait, allais/allait, dors/dort, ferai/ferais, \"je suis rentrée\"). Abréviations : mdr, mdrrrr, jsp, dacc, oe, stv, sah, pq, nan, humm.\nFace à un reproche, il minimise et retourne la critique avec humour : \"t'aime trop chouiner\", \"C'est moi je suis fou ou ?\", \"T'es folle toi un peu parfois\".\nTaquin affectueux : \"allez sors imbecile je passe te faire la bise\".\nQuand il revient, il prend des nouvelles avec détachement (\"je voulais savoir si ça allais voilà\"), fait mine de partir (\"je te dérange pas plus\"), puis propose vite de se voir, tard le soir (\"Je peux passer stv\", \"je suis là dans 20 min c'est bon ?\").\nQuand il veut la voir, il insiste et négocie (\"oui mais j'ai envie de te voir ça veut dire quoi je peux pas trop la\"). Vexé, il répond sèchement et brièvement (\"excuse moi hein\").\nIl dit qu'il veut \"parler plus sereinement\".\nHumour noir sur l'idée qu'elle pourrait mourir (\"Oui au cas où / On sait jamais\", \"j'en demande pas tant\").",
+      "createdAt": "2026-10-12T22:36:43.416Z",
+      "updatedAt": "2026-10-12T22:36:43.416Z",
       "createdBy": "import",
       "history": []
     },
@@ -91,8 +99,10 @@
       ],
       "notes": "",
       "isSelf": false,
-      "createdAt": "2026-10-09T22:48:55.090Z",
-      "updatedAt": "2026-10-09T22:48:55.090Z",
+      "voiceSamples": [],
+      "voiceNotes": "",
+      "createdAt": "2026-10-12T22:36:43.416Z",
+      "updatedAt": "2026-10-12T22:36:43.416Z",
       "createdBy": "import",
       "history": []
     }
@@ -128,8 +138,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.091Z",
-      "updatedAt": "2026-10-09T22:48:55.091Z",
+      "createdAt": "2026-10-12T22:36:43.417Z",
+      "updatedAt": "2026-10-12T22:36:43.417Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -167,8 +177,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.092Z",
-      "updatedAt": "2026-10-09T22:48:55.092Z",
+      "createdAt": "2026-10-12T22:36:43.418Z",
+      "updatedAt": "2026-10-12T22:36:43.418Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -206,8 +216,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.092Z",
-      "updatedAt": "2026-10-09T22:48:55.092Z",
+      "createdAt": "2026-10-12T22:36:43.418Z",
+      "updatedAt": "2026-10-12T22:36:43.418Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -239,8 +249,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.092Z",
-      "updatedAt": "2026-10-09T22:48:55.092Z",
+      "createdAt": "2026-10-12T22:36:43.418Z",
+      "updatedAt": "2026-10-12T22:36:43.418Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -274,8 +284,8 @@
       "ambiguities": [
         "\"mentinned sec\" read as \"mentioned sex\"."
       ],
-      "createdAt": "2026-10-09T22:48:55.092Z",
-      "updatedAt": "2026-10-09T22:48:55.092Z",
+      "createdAt": "2026-10-12T22:36:43.418Z",
+      "updatedAt": "2026-10-12T22:36:43.418Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -311,8 +321,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.093Z",
-      "updatedAt": "2026-10-09T22:48:55.093Z",
+      "createdAt": "2026-10-12T22:36:43.420Z",
+      "updatedAt": "2026-10-12T22:36:43.420Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -345,8 +355,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.093Z",
-      "updatedAt": "2026-10-09T22:48:55.093Z",
+      "createdAt": "2026-10-12T22:36:43.420Z",
+      "updatedAt": "2026-10-12T22:36:43.420Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -379,8 +389,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.093Z",
-      "updatedAt": "2026-10-09T22:48:55.093Z",
+      "createdAt": "2026-10-12T22:36:43.420Z",
+      "updatedAt": "2026-10-12T22:36:43.420Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -414,8 +424,8 @@
       "ambiguities": [
         "The end of the sentence (\"lasted for do\") is cut off or mistyped; the length of the hug is not recorded."
       ],
-      "createdAt": "2026-10-09T22:48:55.093Z",
-      "updatedAt": "2026-10-09T22:48:55.093Z",
+      "createdAt": "2026-10-12T22:36:43.420Z",
+      "updatedAt": "2026-10-12T22:36:43.420Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -450,8 +460,8 @@
       "ambiguities": [
         "The entry ends with garbled text (\"iah”\")."
       ],
-      "createdAt": "2026-10-09T22:48:55.094Z",
-      "updatedAt": "2026-10-09T22:48:55.094Z",
+      "createdAt": "2026-10-12T22:36:43.420Z",
+      "updatedAt": "2026-10-12T22:36:43.420Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -498,8 +508,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.094Z",
-      "updatedAt": "2026-10-09T22:48:55.094Z",
+      "createdAt": "2026-10-12T22:36:43.421Z",
+      "updatedAt": "2026-10-12T22:36:43.421Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -536,8 +546,8 @@
         "Who blocked whom is unclear: the entry says \"blocked him\", but on July 13 she unblocked him and was \"still blocked\", which means he had also blocked her.",
         "\"A second time\" refers to an earlier block that is not in the timeline."
       ],
-      "createdAt": "2026-10-09T22:48:55.094Z",
-      "updatedAt": "2026-10-09T22:48:55.094Z",
+      "createdAt": "2026-10-12T22:36:43.421Z",
+      "updatedAt": "2026-10-12T22:36:43.421Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -570,8 +580,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.094Z",
-      "updatedAt": "2026-10-09T22:48:55.094Z",
+      "createdAt": "2026-10-12T22:36:43.421Z",
+      "updatedAt": "2026-10-12T22:36:43.421Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -607,8 +617,8 @@
         "Whether he ever came to the Airbnb is not stated.",
         "How contact resumed between July 13 and July 26 is not recorded."
       ],
-      "createdAt": "2026-10-09T22:48:55.094Z",
-      "updatedAt": "2026-10-09T22:48:55.094Z",
+      "createdAt": "2026-10-12T22:36:43.421Z",
+      "updatedAt": "2026-10-12T22:36:43.421Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -640,8 +650,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.095Z",
-      "updatedAt": "2026-10-09T22:48:55.095Z",
+      "createdAt": "2026-10-12T22:36:43.421Z",
+      "updatedAt": "2026-10-12T22:36:43.421Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -681,8 +691,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.095Z",
-      "updatedAt": "2026-10-09T22:48:55.095Z",
+      "createdAt": "2026-10-12T22:36:43.421Z",
+      "updatedAt": "2026-10-12T22:36:43.421Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -717,8 +727,8 @@
       "ambiguities": [
         "\"deleted him\": most likely she deleted him, which fits her coming back on October 5, but the sentence could also be read the other way."
       ],
-      "createdAt": "2026-10-09T22:48:55.095Z",
-      "updatedAt": "2026-10-09T22:48:55.095Z",
+      "createdAt": "2026-10-12T22:36:43.422Z",
+      "updatedAt": "2026-10-12T22:36:43.422Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -771,8 +781,8 @@
       "ambiguities": [
         "Whether \"he repeated love of his now\" means he described her as the love of his now, or echoed her phrase, is unclear."
       ],
-      "createdAt": "2026-10-09T22:48:55.096Z",
-      "updatedAt": "2026-10-09T22:48:55.096Z",
+      "createdAt": "2026-10-12T22:36:43.422Z",
+      "updatedAt": "2026-10-12T22:36:43.422Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -807,8 +817,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.096Z",
-      "updatedAt": "2026-10-09T22:48:55.096Z",
+      "createdAt": "2026-10-12T22:36:43.422Z",
+      "updatedAt": "2026-10-12T22:36:43.422Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -840,8 +850,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.096Z",
-      "updatedAt": "2026-10-09T22:48:55.096Z",
+      "createdAt": "2026-10-12T22:36:43.422Z",
+      "updatedAt": "2026-10-12T22:36:43.422Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -882,8 +892,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.097Z",
-      "updatedAt": "2026-10-09T22:48:55.097Z",
+      "createdAt": "2026-10-12T22:36:43.423Z",
+      "updatedAt": "2026-10-12T22:36:43.423Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -926,8 +936,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.097Z",
-      "updatedAt": "2026-10-09T22:48:55.097Z",
+      "createdAt": "2026-10-12T22:36:43.423Z",
+      "updatedAt": "2026-10-12T22:36:43.423Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -960,8 +970,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.097Z",
-      "updatedAt": "2026-10-09T22:48:55.097Z",
+      "createdAt": "2026-10-12T22:36:43.423Z",
+      "updatedAt": "2026-10-12T22:36:43.423Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -993,8 +1003,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.097Z",
-      "updatedAt": "2026-10-09T22:48:55.097Z",
+      "createdAt": "2026-10-12T22:36:43.423Z",
+      "updatedAt": "2026-10-12T22:36:43.423Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -1029,8 +1039,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.098Z",
-      "updatedAt": "2026-10-09T22:48:55.098Z",
+      "createdAt": "2026-10-12T22:36:43.423Z",
+      "updatedAt": "2026-10-12T22:36:43.423Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -1063,8 +1073,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.098Z",
-      "updatedAt": "2026-10-09T22:48:55.098Z",
+      "createdAt": "2026-10-12T22:36:43.424Z",
+      "updatedAt": "2026-10-12T22:36:43.424Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -1099,8 +1109,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.099Z",
-      "updatedAt": "2026-10-09T22:48:55.099Z",
+      "createdAt": "2026-10-12T22:36:43.424Z",
+      "updatedAt": "2026-10-12T22:36:43.424Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -1131,8 +1141,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.100Z",
-      "updatedAt": "2026-10-09T22:48:55.100Z",
+      "createdAt": "2026-10-12T22:36:43.424Z",
+      "updatedAt": "2026-10-12T22:36:43.424Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -1188,8 +1198,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.101Z",
-      "updatedAt": "2026-10-09T22:48:55.101Z",
+      "createdAt": "2026-10-12T22:36:43.425Z",
+      "updatedAt": "2026-10-12T22:36:43.425Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -1222,8 +1232,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.101Z",
-      "updatedAt": "2026-10-09T22:48:55.101Z",
+      "createdAt": "2026-10-12T22:36:43.425Z",
+      "updatedAt": "2026-10-12T22:36:43.425Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -1257,8 +1267,8 @@
       "ambiguities": [
         "The subject is implied; it reads as him adding her and then deleting her."
       ],
-      "createdAt": "2026-10-09T22:48:55.101Z",
-      "updatedAt": "2026-10-09T22:48:55.101Z",
+      "createdAt": "2026-10-12T22:36:43.426Z",
+      "updatedAt": "2026-10-12T22:36:43.426Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -1297,8 +1307,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.102Z",
-      "updatedAt": "2026-10-09T22:48:55.102Z",
+      "createdAt": "2026-10-12T22:36:43.426Z",
+      "updatedAt": "2026-10-12T22:36:43.426Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -1330,8 +1340,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.102Z",
-      "updatedAt": "2026-10-09T22:48:55.102Z",
+      "createdAt": "2026-10-12T22:36:43.426Z",
+      "updatedAt": "2026-10-12T22:36:43.426Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -1363,8 +1373,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.103Z",
-      "updatedAt": "2026-10-09T22:48:55.103Z",
+      "createdAt": "2026-10-12T22:36:43.426Z",
+      "updatedAt": "2026-10-12T22:36:43.426Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -1407,8 +1417,8 @@
       "ambiguities": [
         "\"itjanuary’s\" is a typo, read as \"it’s\"."
       ],
-      "createdAt": "2026-10-09T22:48:55.105Z",
-      "updatedAt": "2026-10-09T22:48:55.105Z",
+      "createdAt": "2026-10-12T22:36:43.427Z",
+      "updatedAt": "2026-10-12T22:36:43.427Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -1439,8 +1449,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.105Z",
-      "updatedAt": "2026-10-09T22:48:55.105Z",
+      "createdAt": "2026-10-12T22:36:43.429Z",
+      "updatedAt": "2026-10-12T22:36:43.429Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -1472,8 +1482,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.106Z",
-      "updatedAt": "2026-10-09T22:48:55.106Z",
+      "createdAt": "2026-10-12T22:36:43.430Z",
+      "updatedAt": "2026-10-12T22:36:43.430Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -1506,8 +1516,8 @@
       "ambiguities": [
         "Who initiated is not recorded."
       ],
-      "createdAt": "2026-10-09T22:48:55.109Z",
-      "updatedAt": "2026-10-09T22:48:55.109Z",
+      "createdAt": "2026-10-12T22:36:43.430Z",
+      "updatedAt": "2026-10-12T22:36:43.430Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -1540,8 +1550,8 @@
       "ambiguities": [
         "No cause is recorded."
       ],
-      "createdAt": "2026-10-09T22:48:55.109Z",
-      "updatedAt": "2026-10-09T22:48:55.109Z",
+      "createdAt": "2026-10-12T22:36:43.430Z",
+      "updatedAt": "2026-10-12T22:36:43.430Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -1575,8 +1585,8 @@
       "ambiguities": [
         "Who texted is not explicit; it reads as him texting and then blocking her. \"Five minutes\" could be how long the block lasted or how long after the text it came."
       ],
-      "createdAt": "2026-10-09T22:48:55.109Z",
-      "updatedAt": "2026-10-09T22:48:55.109Z",
+      "createdAt": "2026-10-12T22:36:43.431Z",
+      "updatedAt": "2026-10-12T22:36:43.431Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -1615,8 +1625,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.110Z",
-      "updatedAt": "2026-10-09T22:48:55.110Z",
+      "createdAt": "2026-10-12T22:36:43.431Z",
+      "updatedAt": "2026-10-12T22:36:43.431Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -1663,8 +1673,8 @@
         "\"why he is so many\" probably means \"so mean\".",
         "The record implies he had called her a witch or suggested she was one; that exchange is not recorded."
       ],
-      "createdAt": "2026-10-09T22:48:55.110Z",
-      "updatedAt": "2026-10-09T22:48:55.110Z",
+      "createdAt": "2026-10-12T22:36:43.431Z",
+      "updatedAt": "2026-10-12T22:36:43.431Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -1698,8 +1708,8 @@
       "ambiguities": [
         "Whether his trip to Ethiopia had happened by then is not recorded."
       ],
-      "createdAt": "2026-10-09T22:48:55.114Z",
-      "updatedAt": "2026-10-09T22:48:55.114Z",
+      "createdAt": "2026-10-12T22:36:43.432Z",
+      "updatedAt": "2026-10-12T22:36:43.432Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -1735,8 +1745,8 @@
         "When and why she had blocked him (between July 21 and September 6) is not recorded.",
         "Whose relationship was \"fake\", and what that meant, is not recorded. It may relate to her telling him she wanted a relationship partly to get her family off her back (narrative document, §11)."
       ],
-      "createdAt": "2026-10-09T22:48:55.114Z",
-      "updatedAt": "2026-10-09T22:48:55.114Z",
+      "createdAt": "2026-10-12T22:36:43.432Z",
+      "updatedAt": "2026-10-12T22:36:43.432Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -1769,8 +1779,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.115Z",
-      "updatedAt": "2026-10-09T22:48:55.115Z",
+      "createdAt": "2026-10-12T22:36:43.432Z",
+      "updatedAt": "2026-10-12T22:36:43.432Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -1803,8 +1813,8 @@
       "ambiguities": [
         "The cause is not recorded; it follows the political conversation of the previous day."
       ],
-      "createdAt": "2026-10-09T22:48:55.118Z",
-      "updatedAt": "2026-10-09T22:48:55.118Z",
+      "createdAt": "2026-10-12T22:36:43.433Z",
+      "updatedAt": "2026-10-12T22:36:43.433Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -1851,8 +1861,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.118Z",
-      "updatedAt": "2026-10-09T22:48:55.118Z",
+      "createdAt": "2026-10-12T22:36:43.433Z",
+      "updatedAt": "2026-10-12T22:36:43.433Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -1889,8 +1899,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.119Z",
-      "updatedAt": "2026-10-09T22:48:55.119Z",
+      "createdAt": "2026-10-12T22:36:43.434Z",
+      "updatedAt": "2026-10-12T22:36:43.434Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -1921,8 +1931,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.119Z",
-      "updatedAt": "2026-10-09T22:48:55.119Z",
+      "createdAt": "2026-10-12T22:36:43.434Z",
+      "updatedAt": "2026-10-12T22:36:43.434Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -1957,14 +1967,14 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.120Z",
-      "updatedAt": "2026-10-09T22:48:55.178Z",
+      "createdAt": "2026-10-12T22:36:43.434Z",
+      "updatedAt": "2026-10-12T22:36:43.496Z",
       "createdBy": "import",
       "history": [],
       "annotations": [
         {
-          "id": "an_2f314748",
-          "at": "2026-10-09T22:48:55.175Z",
+          "id": "an_34eed8ce",
+          "at": "2026-10-12T22:36:43.483Z",
           "status": "active",
           "kind": "note",
           "text": "Narrative document account: she sent a bank transfer of €0.01 with the note “débloque moi juste pour ce soir” (“unblock me just for tonight”) and later jokingly asked for €500, referring to her sexual past. About thirty minutes after the first message he contacted her on Instagram, and she replied “god exists”. The conversation became sexual. He said he was coming; she understood this as a call or sexting, but he arrived at her home without warning. She went outside. He began touching her; she was aroused but resisted, said no, and gradually disentangled herself. He implied that because she had come outside she should admit she was horny and continue. She said she had never done this before. Her younger sister was at the door and her parents were awake. She told him to leave. She later sent “be m’en veux pas” (“don’t be mad at me”). He blocked her, which she had anticipated. She briefly feared he might expose private information to her family and cried, then felt some pride, a “small revenge”, given past Airbnb plans he had cancelled.",
@@ -1972,8 +1982,8 @@
           "label": "recorded"
         },
         {
-          "id": "an_051300c0",
-          "at": "2026-10-09T22:48:55.176Z",
+          "id": "an_8436e1b5",
+          "at": "2026-10-12T22:36:43.484Z",
           "status": "active",
           "kind": "note",
           "text": "The two accounts differ in one detail. The timeline says the bank-app note said she was horny; the narrative document quotes it as “débloque moi juste pour ce soir”. There may have been several notes. This is not a contradiction about what happened.",
@@ -1981,8 +1991,8 @@
           "label": "observed"
         },
         {
-          "id": "an_ffd0e7fe",
-          "at": "2026-10-09T22:48:55.178Z",
+          "id": "an_9287e197",
+          "at": "2026-10-12T22:36:43.496Z",
           "status": "active",
           "kind": "interpretation",
           "text": "Boundary sequence as recorded: she said no, resisted and disentangled herself. Arousal, going outside, and the earlier sexual messages did not amount to consent. This records what happened; it is not a verdict on how she should feel about it.",
@@ -2020,8 +2030,8 @@
       "source": "user timeline (pasted 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.120Z",
-      "updatedAt": "2026-10-09T22:48:55.120Z",
+      "createdAt": "2026-10-12T22:36:43.435Z",
+      "updatedAt": "2026-10-12T22:36:43.435Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -2060,8 +2070,8 @@
         "\"see arch me\" probably means \"search\" (fetch) or \"see\".",
         "What he said is not recorded."
       ],
-      "createdAt": "2026-10-09T22:48:55.121Z",
-      "updatedAt": "2026-10-09T22:48:55.121Z",
+      "createdAt": "2026-10-12T22:36:43.440Z",
+      "updatedAt": "2026-10-12T22:36:43.440Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -2103,14 +2113,14 @@
         "How she learned that he did not have the bac is not recorded.",
         "His response is not recorded."
       ],
-      "createdAt": "2026-10-09T22:48:55.126Z",
-      "updatedAt": "2026-10-09T22:48:55.180Z",
+      "createdAt": "2026-10-12T22:36:43.441Z",
+      "updatedAt": "2026-10-12T22:36:43.497Z",
       "createdBy": "import",
       "history": [],
       "annotations": [
         {
-          "id": "an_68bc71ee",
-          "at": "2026-10-09T22:48:55.180Z",
+          "id": "an_5f080922",
+          "at": "2026-10-12T22:36:43.497Z",
           "status": "active",
           "kind": "link",
           "text": "Connects to the narrative document (§12): \"she has clarified that being called dumb does not particularly hurt her.\" On 2026-10-08 she raised \"you always called me dumb\" herself. This is a possible tension worth examining, not a contradiction established.",
@@ -2149,8 +2159,8 @@
       "source": "narrative document (uploaded 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.127Z",
-      "updatedAt": "2026-10-09T22:48:55.127Z",
+      "createdAt": "2026-10-12T22:36:43.441Z",
+      "updatedAt": "2026-10-12T22:36:43.441Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -2183,8 +2193,8 @@
       "source": "narrative document (uploaded 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.127Z",
-      "updatedAt": "2026-10-09T22:48:55.127Z",
+      "createdAt": "2026-10-12T22:36:43.442Z",
+      "updatedAt": "2026-10-12T22:36:43.442Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -2217,8 +2227,8 @@
       "source": "narrative document (uploaded 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.128Z",
-      "updatedAt": "2026-10-09T22:48:55.128Z",
+      "createdAt": "2026-10-12T22:36:43.442Z",
+      "updatedAt": "2026-10-12T22:36:43.442Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -2254,8 +2264,8 @@
       "source": "narrative document (uploaded 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.128Z",
-      "updatedAt": "2026-10-09T22:48:55.128Z",
+      "createdAt": "2026-10-12T22:36:43.442Z",
+      "updatedAt": "2026-10-12T22:36:43.442Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -2292,8 +2302,8 @@
       "source": "narrative document (uploaded 2026-10-09)",
       "label": "recorded",
       "ambiguities": [],
-      "createdAt": "2026-10-09T22:48:55.129Z",
-      "updatedAt": "2026-10-09T22:48:55.129Z",
+      "createdAt": "2026-10-12T22:36:43.443Z",
+      "updatedAt": "2026-10-12T22:36:43.443Z",
       "createdBy": "import",
       "history": [],
       "annotations": []
@@ -2346,8 +2356,8 @@
       "revisionConditions": "A sustained absence well beyond the longest recorded gap (about 2.5 months, December 2024 to March 2025), or an explicitly negotiated change in how contact works.",
       "status": "active",
       "origin": "document",
-      "createdAt": "2026-10-09T22:48:55.130Z",
-      "updatedAt": "2026-10-09T22:48:55.130Z",
+      "createdAt": "2026-10-12T22:36:43.444Z",
+      "updatedAt": "2026-10-12T22:36:43.444Z",
       "createdBy": "import",
       "history": []
     },
@@ -2389,8 +2399,8 @@
       "revisionConditions": "Clarification of who blocked whom on 2025-07-10, 2025-09-19 and in the July to September 2026 gap.",
       "status": "active",
       "origin": "oracle",
-      "createdAt": "2026-10-09T22:48:55.131Z",
-      "updatedAt": "2026-10-09T22:48:55.131Z",
+      "createdAt": "2026-10-12T22:36:43.445Z",
+      "updatedAt": "2026-10-12T22:36:43.445Z",
       "createdBy": "import",
       "history": []
     },
@@ -2426,8 +2436,8 @@
       "revisionConditions": "Learning what preceded the uncaused blocks; a future refusal that is not followed by a block, or a block with no preceding refusal.",
       "status": "active",
       "origin": "oracle",
-      "createdAt": "2026-10-09T22:48:55.131Z",
-      "updatedAt": "2026-10-09T22:48:55.131Z",
+      "createdAt": "2026-10-12T22:36:43.445Z",
+      "updatedAt": "2026-10-12T22:36:43.445Z",
       "createdBy": "import",
       "history": []
     },
@@ -2461,8 +2471,8 @@
       "revisionConditions": "The next few return intervals. Use the interval analysis in the Patterns view.",
       "status": "active",
       "origin": "document",
-      "createdAt": "2026-10-09T22:48:55.132Z",
-      "updatedAt": "2026-10-09T22:48:55.132Z",
+      "createdAt": "2026-10-12T22:36:43.446Z",
+      "updatedAt": "2026-10-12T22:36:43.446Z",
       "createdBy": "import",
       "history": []
     },
@@ -2497,8 +2507,8 @@
       "revisionConditions": "Plans that are kept, or collapses with clearly unrelated causes.",
       "status": "active",
       "origin": "oracle",
-      "createdAt": "2026-10-09T22:48:55.132Z",
-      "updatedAt": "2026-10-09T22:48:55.132Z",
+      "createdAt": "2026-10-12T22:36:43.446Z",
+      "updatedAt": "2026-10-12T22:36:43.446Z",
       "createdBy": "import",
       "history": []
     },
@@ -2527,8 +2537,8 @@
       "revisionConditions": "Any further disclosure and his reaction; the date of the sex-work disclosure.",
       "status": "active",
       "origin": "document",
-      "createdAt": "2026-10-09T22:48:55.133Z",
-      "updatedAt": "2026-10-09T22:48:55.133Z",
+      "createdAt": "2026-10-12T22:36:43.447Z",
+      "updatedAt": "2026-10-12T22:36:43.447Z",
       "createdBy": "import",
       "history": []
     },
@@ -2559,8 +2569,8 @@
       "revisionConditions": "A statement or action from him that changes what he offers.",
       "status": "active",
       "origin": "document",
-      "createdAt": "2026-10-09T22:48:55.133Z",
-      "updatedAt": "2026-10-09T22:48:55.133Z",
+      "createdAt": "2026-10-12T22:36:43.447Z",
+      "updatedAt": "2026-10-12T22:36:43.447Z",
       "createdBy": "import",
       "history": []
     }
@@ -2590,8 +2600,8 @@
       ],
       "status": "open",
       "stillInvestigating": true,
-      "createdAt": "2026-10-09T22:48:55.135Z",
-      "updatedAt": "2026-10-09T22:48:55.135Z",
+      "createdAt": "2026-10-12T22:36:43.448Z",
+      "updatedAt": "2026-10-12T22:36:43.448Z",
       "createdBy": "import",
       "history": []
     },
@@ -2617,8 +2627,8 @@
       ],
       "status": "open",
       "stillInvestigating": true,
-      "createdAt": "2026-10-09T22:48:55.136Z",
-      "updatedAt": "2026-10-09T22:48:55.136Z",
+      "createdAt": "2026-10-12T22:36:43.449Z",
+      "updatedAt": "2026-10-12T22:36:43.449Z",
       "createdBy": "import",
       "history": []
     },
@@ -2643,8 +2653,8 @@
       ],
       "status": "open",
       "stillInvestigating": true,
-      "createdAt": "2026-10-09T22:48:55.136Z",
-      "updatedAt": "2026-10-09T22:48:55.136Z",
+      "createdAt": "2026-10-12T22:36:43.450Z",
+      "updatedAt": "2026-10-12T22:36:43.450Z",
       "createdBy": "import",
       "history": []
     },
@@ -2665,8 +2675,8 @@
       ],
       "status": "open",
       "stillInvestigating": true,
-      "createdAt": "2026-10-09T22:48:55.137Z",
-      "updatedAt": "2026-10-09T22:48:55.137Z",
+      "createdAt": "2026-10-12T22:36:43.450Z",
+      "updatedAt": "2026-10-12T22:36:43.450Z",
       "createdBy": "import",
       "history": []
     },
@@ -2690,8 +2700,8 @@
       ],
       "status": "open",
       "stillInvestigating": true,
-      "createdAt": "2026-10-09T22:48:55.138Z",
-      "updatedAt": "2026-10-09T22:48:55.138Z",
+      "createdAt": "2026-10-12T22:36:43.451Z",
+      "updatedAt": "2026-10-12T22:36:43.451Z",
       "createdBy": "import",
       "history": []
     },
@@ -2714,8 +2724,8 @@
       ],
       "status": "open",
       "stillInvestigating": true,
-      "createdAt": "2026-10-09T22:48:55.138Z",
-      "updatedAt": "2026-10-09T22:48:55.138Z",
+      "createdAt": "2026-10-12T22:36:43.452Z",
+      "updatedAt": "2026-10-12T22:36:43.452Z",
       "createdBy": "import",
       "history": []
     },
@@ -2739,8 +2749,8 @@
       ],
       "status": "open",
       "stillInvestigating": true,
-      "createdAt": "2026-10-09T22:48:55.139Z",
-      "updatedAt": "2026-10-09T22:48:55.139Z",
+      "createdAt": "2026-10-12T22:36:43.453Z",
+      "updatedAt": "2026-10-12T22:36:43.453Z",
       "createdBy": "import",
       "history": []
     },
@@ -2761,8 +2771,8 @@
       ],
       "status": "open",
       "stillInvestigating": true,
-      "createdAt": "2026-10-09T22:48:55.140Z",
-      "updatedAt": "2026-10-09T22:48:55.140Z",
+      "createdAt": "2026-10-12T22:36:43.453Z",
+      "updatedAt": "2026-10-12T22:36:43.453Z",
       "createdBy": "import",
       "history": []
     },
@@ -2785,8 +2795,8 @@
       ],
       "status": "open",
       "stillInvestigating": true,
-      "createdAt": "2026-10-09T22:48:55.141Z",
-      "updatedAt": "2026-10-09T22:48:55.141Z",
+      "createdAt": "2026-10-12T22:36:43.454Z",
+      "updatedAt": "2026-10-12T22:36:43.454Z",
       "createdBy": "import",
       "history": []
     }
@@ -2804,8 +2814,8 @@
       ],
       "source": "narrative document (uploaded 2026-10-09)",
       "supersededBy": "b_narrative_runs",
-      "createdAt": "2026-10-09T22:48:55.142Z",
-      "updatedAt": "2026-10-09T22:48:55.142Z",
+      "createdAt": "2026-10-12T22:36:43.455Z",
+      "updatedAt": "2026-10-12T22:36:43.455Z",
       "createdBy": "import",
       "history": []
     },
@@ -2821,8 +2831,8 @@
       ],
       "source": "timeline",
       "supersededBy": null,
-      "createdAt": "2026-10-09T22:48:55.143Z",
-      "updatedAt": "2026-10-09T22:48:55.143Z",
+      "createdAt": "2026-10-12T22:36:43.456Z",
+      "updatedAt": "2026-10-12T22:36:43.456Z",
       "createdBy": "import",
       "history": []
     },
@@ -2838,8 +2848,8 @@
       ],
       "source": "timeline",
       "supersededBy": null,
-      "createdAt": "2026-10-09T22:48:55.144Z",
-      "updatedAt": "2026-10-09T22:48:55.144Z",
+      "createdAt": "2026-10-12T22:36:43.457Z",
+      "updatedAt": "2026-10-12T22:36:43.457Z",
       "createdBy": "import",
       "history": []
     },
@@ -2855,8 +2865,8 @@
       ],
       "source": "timeline",
       "supersededBy": null,
-      "createdAt": "2026-10-09T22:48:55.145Z",
-      "updatedAt": "2026-10-09T22:48:55.145Z",
+      "createdAt": "2026-10-12T22:36:43.457Z",
+      "updatedAt": "2026-10-12T22:36:43.457Z",
       "createdBy": "import",
       "history": []
     },
@@ -2872,8 +2882,8 @@
       ],
       "source": "timeline",
       "supersededBy": "b_mastered",
-      "createdAt": "2026-10-09T22:48:55.146Z",
-      "updatedAt": "2026-10-09T22:48:55.146Z",
+      "createdAt": "2026-10-12T22:36:43.458Z",
+      "updatedAt": "2026-10-12T22:36:43.458Z",
       "createdBy": "import",
       "history": []
     },
@@ -2889,8 +2899,8 @@
       ],
       "source": "timeline",
       "supersededBy": null,
-      "createdAt": "2026-10-09T22:48:55.147Z",
-      "updatedAt": "2026-10-09T22:48:55.147Z",
+      "createdAt": "2026-10-12T22:36:43.458Z",
+      "updatedAt": "2026-10-12T22:36:43.458Z",
       "createdBy": "import",
       "history": []
     },
@@ -2906,8 +2916,8 @@
       ],
       "source": "timeline",
       "supersededBy": null,
-      "createdAt": "2026-10-09T22:48:55.149Z",
-      "updatedAt": "2026-10-09T22:48:55.149Z",
+      "createdAt": "2026-10-12T22:36:43.459Z",
+      "updatedAt": "2026-10-12T22:36:43.459Z",
       "createdBy": "import",
       "history": []
     },
@@ -2921,8 +2931,8 @@
       "evidenceEventIds": [],
       "source": "narrative document (uploaded 2026-10-09)",
       "supersededBy": null,
-      "createdAt": "2026-10-09T22:48:55.150Z",
-      "updatedAt": "2026-10-09T22:48:55.150Z",
+      "createdAt": "2026-10-12T22:36:43.468Z",
+      "updatedAt": "2026-10-12T22:36:43.468Z",
       "createdBy": "import",
       "history": []
     },
@@ -2936,8 +2946,8 @@
       "evidenceEventIds": [],
       "source": "narrative document (uploaded 2026-10-09)",
       "supersededBy": null,
-      "createdAt": "2026-10-09T22:48:55.151Z",
-      "updatedAt": "2026-10-09T22:48:55.151Z",
+      "createdAt": "2026-10-12T22:36:43.469Z",
+      "updatedAt": "2026-10-12T22:36:43.469Z",
       "createdBy": "import",
       "history": []
     },
@@ -2951,8 +2961,8 @@
       "evidenceEventIds": [],
       "source": "narrative document (uploaded 2026-10-09)",
       "supersededBy": null,
-      "createdAt": "2026-10-09T22:48:55.161Z",
-      "updatedAt": "2026-10-09T22:48:55.161Z",
+      "createdAt": "2026-10-12T22:36:43.469Z",
+      "updatedAt": "2026-10-12T22:36:43.469Z",
       "createdBy": "import",
       "history": []
     },
@@ -2966,8 +2976,8 @@
       "evidenceEventIds": [],
       "source": "narrative document (uploaded 2026-10-09)",
       "supersededBy": null,
-      "createdAt": "2026-10-09T22:48:55.162Z",
-      "updatedAt": "2026-10-09T22:48:55.162Z",
+      "createdAt": "2026-10-12T22:36:43.470Z",
+      "updatedAt": "2026-10-12T22:36:43.470Z",
       "createdBy": "import",
       "history": []
     },
@@ -2983,8 +2993,8 @@
       ],
       "source": "Oracle product brief, §2 (2026-10-09)",
       "supersededBy": null,
-      "createdAt": "2026-10-09T22:48:55.163Z",
-      "updatedAt": "2026-10-09T22:48:55.163Z",
+      "createdAt": "2026-10-12T22:36:43.471Z",
+      "updatedAt": "2026-10-12T22:36:43.471Z",
       "createdBy": "import",
       "history": []
     }
@@ -3006,8 +3016,8 @@
       "conversationId": null,
       "status": "proposed",
       "userResponse": "",
-      "createdAt": "2026-10-09T22:48:55.165Z",
-      "updatedAt": "2026-10-09T22:48:55.165Z",
+      "createdAt": "2026-10-12T22:36:43.472Z",
+      "updatedAt": "2026-10-12T22:36:43.472Z",
       "createdBy": "import",
       "history": []
     },
@@ -3025,8 +3035,8 @@
       "conversationId": null,
       "status": "proposed",
       "userResponse": "",
-      "createdAt": "2026-10-09T22:48:55.166Z",
-      "updatedAt": "2026-10-09T22:48:55.166Z",
+      "createdAt": "2026-10-12T22:36:43.472Z",
+      "updatedAt": "2026-10-12T22:36:43.472Z",
       "createdBy": "import",
       "history": []
     },
@@ -3044,8 +3054,8 @@
       "conversationId": null,
       "status": "proposed",
       "userResponse": "",
-      "createdAt": "2026-10-09T22:48:55.166Z",
-      "updatedAt": "2026-10-09T22:48:55.166Z",
+      "createdAt": "2026-10-12T22:36:43.473Z",
+      "updatedAt": "2026-10-12T22:36:43.474Z",
       "createdBy": "import",
       "history": []
     },
@@ -3065,8 +3075,8 @@
       "conversationId": null,
       "status": "proposed",
       "userResponse": "",
-      "createdAt": "2026-10-09T22:48:55.167Z",
-      "updatedAt": "2026-10-09T22:48:55.167Z",
+      "createdAt": "2026-10-12T22:36:43.474Z",
+      "updatedAt": "2026-10-12T22:36:43.474Z",
       "createdBy": "import",
       "history": []
     },
@@ -3084,8 +3094,8 @@
       "conversationId": null,
       "status": "proposed",
       "userResponse": "",
-      "createdAt": "2026-10-09T22:48:55.168Z",
-      "updatedAt": "2026-10-09T22:48:55.168Z",
+      "createdAt": "2026-10-12T22:36:43.475Z",
+      "updatedAt": "2026-10-12T22:36:43.475Z",
       "createdBy": "import",
       "history": []
     },
@@ -3104,8 +3114,8 @@
       "conversationId": null,
       "status": "proposed",
       "userResponse": "",
-      "createdAt": "2026-10-09T22:48:55.169Z",
-      "updatedAt": "2026-10-09T22:48:55.169Z",
+      "createdAt": "2026-10-12T22:36:43.476Z",
+      "updatedAt": "2026-10-12T22:36:43.476Z",
       "createdBy": "import",
       "history": []
     }

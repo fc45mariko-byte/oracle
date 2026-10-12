@@ -225,6 +225,14 @@ export class Store {
         const have = new Set(this.data[c].map((x) => x.id));
         for (const x of data[c] || []) if (!have.has(x.id)) this.data[c].push(structuredClone(x));
       }
+      // People that already exist get fields they lack filled in (e.g. voice samples added to the case
+      // study later). Fields that already have content are never overwritten.
+      const blank = (v) => v === undefined || v === '' || (Array.isArray(v) && !v.length);
+      for (const x of data.people || []) {
+        const mine = this.data.people.find((p) => p.id === x.id);
+        if (!mine || mine.isSelf) continue;
+        for (const [k, v] of Object.entries(x)) if (blank(mine[k]) && !blank(v)) mine[k] = structuredClone(v);
+      }
       // The device always starts with a blank self profile; take the imported one if it has content.
       const incomingSelf = (data.people || []).find((p) => p.isSelf);
       const mine = this.data.people.find((p) => p.isSelf);

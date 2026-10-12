@@ -130,6 +130,8 @@ function profile(o) {
     ${field('observations', 'What you have directly observed (one per line)', { type: 'textarea', value: (p.observations || []).join('\n'), rows: 4 })}
     ${field('unknowns', 'What remains unknown (one per line)', { type: 'textarea', value: (p.unknowns || []).join('\n'), rows: 4 })}
     ${field('notes', 'Notes', { type: 'textarea', value: p.notes, rows: 2 })}
+    ${p.isSelf ? '' : `${field('voiceSamples', 'How they write: real conversations, word for word. Separate excerpts with a blank line; start lines with “lui:” and “elle:”. Used by the simulated chat.', { type: 'textarea', value: (p.voiceSamples || []).join('\n\n'), rows: 10 })}
+    ${field('voiceNotes', 'Notes on how they write', { type: 'textarea', value: p.voiceNotes || '', rows: 4 })}`}
     ${field('_reason', 'Why are you changing this? (kept in the history)', { value: '' })}
     <button class="btn primary">Save</button>
   </form>
@@ -143,6 +145,7 @@ function bindProfile(el, p) {
     await patch(`/people/${p.id}`, {
       name: d.name, aliases: d.aliases.split(',').map((x) => x.trim()).filter(Boolean), context: d.context, howMet: d.howMet,
       explicitStatements: lines(d.explicitStatements), observations: lines(d.observations), unknowns: lines(d.unknowns), notes: d.notes, _reason: d._reason,
+      ...(p.isSelf ? {} : { voiceSamples: (d.voiceSamples || '').split(/\n\s*\n/).map((x) => x.trim()).filter(Boolean), voiceNotes: d.voiceNotes || '' }),
     });
     toast('Saved. The previous version is kept in the history.');
     navigate(`#/people/${p.id}`);

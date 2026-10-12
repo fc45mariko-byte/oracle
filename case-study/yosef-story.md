@@ -2,7 +2,7 @@
 
 The record Oracle holds about you and Yosef, from November 2024 to October 2026. Your own words are quoted exactly as you wrote them. Everything else is labelled: what was recorded, what is inferred, and what remains unknown.
 
-Generated 2026-10-09.
+Generated 2026-10-12.
 
 ## Where things stand
 

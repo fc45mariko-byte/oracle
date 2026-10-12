@@ -44,6 +44,96 @@ const CONTACT_ACTOR = {
 };
 const contactEffect = (id) => (CUT.includes(id) ? 'cut' : REOPEN.includes(id) ? 'reopen' : REOPEN_THEN_CUT.includes(id) ? 'reopen_then_cut' : 'none');
 
+// Excerpts of real conversations, transcribed verbatim from screenshots she shared on 2026-10-12.
+// "lui" is Yosef, "elle" is the user. Her phone contact and street address are left out.
+const VOICE_SAMPLES = [
+  `[iMessage, date inconnue ; peut-être lié au 9 juin 2026 (message à 6h puis blocage), non établi]
+lui: Si tu supprime les messages jsp comment je vais les voir
+elle: toi tu m'envoies des messages à 6h si j'ai pas répondu à 6h01 tu me bloques
+elle: t'es si méchant alors que je suis toujours très gentille avec toi j'ai fait quoi pour que chaque fois tu sois si désagréable on dirait je te force
+elle: j'espère qu'un jour quelqu'un sera aussi méchant avec toi que tu l'est avec moi
+lui: Mdr mais toi t'aime trop chouiner
+lui: J'ai absolument rien fais et t'es en train de me prendre la tête pour un message que je n'ai pas vu auquel je n'ai pas répondu et que tu as supprimé
+lui: C'est moi je suis fou ou ?
+elle: c'est pas chouiner déjà je suis sensible
+elle: et objectivement t'es méchant des que je respire tu me bloques ou me supprime
+elle: je parle pas de aujourd'hui mais de tout le temps`,
+  `[WhatsApp, vers 00:21-00:37, date inconnue ; il rentre de vacances avec sa famille]
+lui: Salut ça va
+elle: oui ça va
+lui: Dacc tant mieux
+lui: je suis rentrée
+elle: ah c'était bien
+lui: ca fait longtemps je voulais savoir si ça allais voilà t'es en vacances nan ?
+lui: Oe franchement c'était vraiment bien
+elle: c'est cool pour toi t'as pu voir ta famille
+elle: oui je suis en vacances
+lui: Oui merci
+lui: Ok ok je te dérange pas plus alors bonne soirée
+elle: ah mm pas un désolé
+elle: c'était pour voir si j'étais pas morte?
+lui: Oui au cas où
+lui: On sait jamais
+lui: Si pourquoi pas on peut se voir c'est mieux
+lui: Pour parler
+elle: tqt je me suiciderais jamais pour toi
+lui: Mdrrrr j'en demande pas tant
+lui: T'es folle toi un peu parfois
+elle: de quoi`,
+  `[WhatsApp, même nuit, 00:39-00:49]
+lui: Jsp on pourrais parler de plein de choses
+lui: Et plus sereinement
+elle: bah je ressens les choses intensément
+lui: J'avais cru comprendre
+elle: d'accord
+lui: tu veux ?
+elle: oui pourquoi pas
+lui: d'accord ça me va
+lui: tu fais quoi là ?
+elle: je regarde des tiktok et toi
+lui: Rien je m'ennuie
+lui: Je peux passer stv
+lui: Il fait bon dehors on peut marcher un peu
+elle: je peux pas trop la mais tu peux m'appeler si tu veux parler`,
+  `[WhatsApp, même nuit, 00:50-00:55]
+lui: oui mais j'ai envie de te voir ça veut dire quoi je peux pas trop la
+lui: j'ai bronzé faut que tu constates ça
+elle: bah parce que y'a ma daronne je peux pas sortir
+lui: humm
+elle: pq t'es si pressé
+lui: excuse moi hein
+lui: dis moi quand c'est bon
+lui: elle dors profondément
+elle: tu veux pas qu'on s'appelle ?
+lui: je veux t'appeler et je veux bien te voir aussi
+elle: oui dm
+lui: demain soir ?`,
+  `[WhatsApp, même nuit, 00:58-01:03]
+elle: ah bah je suis contente si je t'ai manqué
+lui: si t'es contente alors c'est parfait
+elle: depuis une semaine je pensais beaucoup à toi
+elle: c'est vrai
+lui: allez sors imbecile je passe te faire la bise
+lui: ah bon pourquoi ça
+lui: même pas longtemps ça me ferai plaisir
+elle: vite fait alors
+elle: devant ma porte
+lui: sah ?
+lui: vas-y j'arrive alors
+lui: c'dhs quoi déjà le nom de la rue
+elle: [son adresse]
+lui: je suis là dans 20 min c'est bon ?`,
+];
+
+// Observations drawn from those excerpts (inferred from five excerpts; not a full portrait).
+const VOICE_NOTES = `Messages courts, envoyés en rafale. Majuscule en début de message une fois sur deux. Fautes d'accord ou de conjugaison fréquentes (fais/fait, allais/allait, dors/dort, ferai/ferais, "je suis rentrée"). Abréviations : mdr, mdrrrr, jsp, dacc, oe, stv, sah, pq, nan, humm.
+Face à un reproche, il minimise et retourne la critique avec humour : "t'aime trop chouiner", "C'est moi je suis fou ou ?", "T'es folle toi un peu parfois".
+Taquin affectueux : "allez sors imbecile je passe te faire la bise".
+Quand il revient, il prend des nouvelles avec détachement ("je voulais savoir si ça allais voilà"), fait mine de partir ("je te dérange pas plus"), puis propose vite de se voir, tard le soir ("Je peux passer stv", "je suis là dans 20 min c'est bon ?").
+Quand il veut la voir, il insiste et négocie ("oui mais j'ai envie de te voir ça veut dire quoi je peux pas trop la"). Vexé, il répond sèchement et brièvement ("excuse moi hein").
+Il dit qu'il veut "parler plus sereinement".
+Humour noir sur l'idée qu'elle pourrait mourir ("Oui au cas où / On sait jamais", "j'en demande pas tant").`;
+
 export const PEOPLE = [
   {
     id: ME, name: 'Me', aliases: ['self', 'I', 'me'], isSelf: true,
@@ -86,6 +176,8 @@ export const PEOPLE = [
       'Whether his trip to Ethiopia (mentioned 2026-06-13) happened, and when.',
     ],
     notes: 'His own account of his feelings is only available through what the user reports.',
+    voiceSamples: VOICE_SAMPLES,
+    voiceNotes: VOICE_NOTES,
   },
   {
     id: 'p_jibril', name: 'Jibril', aliases: ['jibril'],

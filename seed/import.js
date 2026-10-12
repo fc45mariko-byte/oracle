@@ -16,6 +16,9 @@ export function importYosefCase(store) {
         if (col === 'people' && existing.isSelf && !existing.explicitStatements.length) {
           store.update('people', id, { explicitStatements: rest.explicitStatements || [] }, { by: 'import', reason: 'case study import' });
         }
+        if (col === 'people' && !existing.isSelf && !(existing.voiceSamples || []).length && rest.voiceSamples?.length) {
+          store.update('people', id, { voiceSamples: rest.voiceSamples, voiceNotes: rest.voiceNotes || '' }, { by: 'import', reason: 'voice samples added to the case study' });
+        }
         continue;
       }
       store.create(col, rest, { id, by: 'import' });

@@ -57,3 +57,26 @@ test('you cannot simulate yourself, and without Claude the turn fails clearly', 
   const sim = await api('POST', '/simulations', { personId: 'p_yosef' });
   await assert.rejects(api('POST', `/simulations/${sim.id}/messages`, { text: 'salut' }), (e) => e.status === 503);
 });
+
+test('his real messages are in the dossier, without her phone contact or address', () => {
+  const d = personaDossier(freshStore(), 'p_yosef');
+  assert.match(d, /Mdr mais toi t'aime trop chouiner/);
+  assert.match(d, /Je peux passer stv/);
+  assert.match(d, /Sa façon d'écrire/);
+  assert.doesNotMatch(d, /sittelles|\+33|17 92/i);
+});
+
+test('loading the case study again fills in voice samples on an existing profile without touching edits', async () => {
+  const { Store, MemoryBackend } = await import('../core/store.js');
+  const { importYosefCase } = await import('../seed/import.js');
+  const s = freshStore();
+  s.update('people', 'p_yosef', { voiceSamples: [], voiceNotes: '', notes: 'my note' });
+  importYosefCase(s);
+  assert.ok(s.get('people', 'p_yosef').voiceSamples.length >= 5);
+  assert.equal(s.get('people', 'p_yosef').notes, 'my note');
+  const device = new Store(new MemoryBackend());
+  device.importAll(freshStore().exportAll(), { mode: 'merge' });
+  device.update('people', 'p_yosef', { voiceSamples: [] });
+  device.importAll(freshStore().exportAll(), { mode: 'merge' });
+  assert.ok(device.get('people', 'p_yosef').voiceSamples.length >= 5);
+});

@@ -43,6 +43,11 @@ export const PersonInput = z.object({
   unknowns: z.array(z.string()).default([]),
   notes: z.string().default(''),
   isSelf: z.boolean().default(false),
+  // Real messages the person wrote, verbatim (excerpts of conversations), and notes on how they write.
+  // Used by the chat simulation to imitate their voice. Each sample is one excerpt; lines start
+  // with "lui:" / "elle:" (or the speaker's name).
+  voiceSamples: z.array(z.string()).default([]),
+  voiceNotes: z.string().default(''),
 });
 
 export const EventInput = z.object({
