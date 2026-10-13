@@ -100,3 +100,30 @@ test('feedback reads the whole simulated chat with the dossier, is stored apart,
   await api('POST', `/simulations/${sim.id}/messages`, { text: 'et maintenant ?' });
   assert.ok(!calls[2].messages.some((m) => m.content.includes('En bref')), 'feedback is not sent to the character');
 });
+
+test('each reply gets a direction, never the same move as the last two, and the model is told to avoid his recent openers', async () => {
+  const { pickDirection, MOVES } = await import('../core/simulation.js');
+  for (let i = 0; i < 200; i++) {
+    const d = pickDirection(['taquin', 'esquive']);
+    assert.ok(!['taquin', 'esquive'].includes(d.move));
+    assert.ok(MOVES.some((m) => m.id === d.move));
+    assert.ok(d.burst >= 0 && d.burst <= 4);
+  }
+  const store = freshStore();
+  const calls = [];
+  const replies = ['Wsh. Ça va ou quoi', 'Mdr t’es grave\nBon vas-y', '[vu]\nautre chose'];
+  const client = { completeText: async (req) => { calls.push(req); return replies[calls.length - 1]; } };
+  const api = createApi({ store, settings, client });
+  const sim = await api('POST', '/simulations', { personId: 'p_yosef' });
+  await api('POST', `/simulations/${sim.id}/messages`, { text: 'salut' });
+  await api('POST', `/simulations/${sim.id}/messages`, { text: 'tu fais quoi' });
+  const third = await api('POST', `/simulations/${sim.id}/messages`, { text: 'réponds' });
+  const last = calls[2].messages.at(-1).content;
+  assert.match(last, /Consigne pour CETTE réponse/);
+  assert.match(last, /« wsh\. ça »/);
+  assert.match(last, /« mdr t’es »/);
+  assert.equal(third.sim.text, '[vu]', 'a "seen" reply is only that');
+  const moves = store.getConversation(sim.id).messages.filter((m) => m.role === 'sim').map((m) => m.move);
+  assert.equal(moves.length, 3);
+  assert.ok(moves.every(Boolean));
+});

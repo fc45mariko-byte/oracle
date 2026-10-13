@@ -214,3 +214,4 @@ details[open] > summary::before { content: "▾ "; }
 .feedback .body p { margin: 0 0 10px; }
 .feedback .body ul, .feedback .body ol { padding-left: 20px; margin: 0 0 10px; }
 .feedback .body blockquote { border-left: 2px solid var(--line-2); margin: 0 0 10px; padding-left: 10px; color: var(--text-2); }
+.seen { align-self: flex-end; color: var(--muted); font-size: 11.5px; margin-top: -2px; padding-right: 6px; }

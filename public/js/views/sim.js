@@ -29,6 +29,7 @@ async function renderList(el) {
 function bubbles(m) {
   if (m.role === 'feedback') return feedbackCard(m);
   if (m.role === 'user') return `<div class="bubble me">${esc(m.text)}</div>`;
+  if (m.text.trim() === '[vu]') return '<div class="seen">Vu</div>';
   return m.text.split('\n').map((l) => l.trim()).filter(Boolean).map((l) => (l.toLowerCase().startsWith('[oracle]')
     ? `<div class="banner">${esc(l.replace(/^\[oracle\]\s*/i, ''))}</div>`
     : `<div class="bubble them">${esc(l)}</div>`)).join('');

@@ -80,20 +80,80 @@ async function completeText(client, { system, messages, model, effort, tier, max
   return res.content.filter((b) => b.type === 'text').map((b) => b.text).join('').trim();
 }
 
-export async function runSimTurn(store, client, simId, text, { model = 'claude-opus-5-5', effort, today = new Date().toISOString().slice(0, 10) } = {}) {
+// ---- Variation ------------------------------------------------------------------------------
+// Left alone, the model settles into one reply shape (same opener, same length, same move). So the
+// code picks, for each reply, what he does with it and how many messages he sends, never repeating
+// the last two moves, and shows the model his recent replies so it avoids their openers and tics.
+
+export const MOVES = [
+  { id: 'sec', w: 12, text: 'réponds sec, en très peu de mots, sans relancer' },
+  { id: 'esquive', w: 12, text: 'esquive le fond de ce qu’elle dit : minimise, tourne en dérision ou change de sujet' },
+  { id: 'taquin', w: 10, text: 'taquine-la, affectueux mais moqueur' },
+  { id: 'question', w: 10, text: 'réponds surtout par une question (une vraie, ou pour gagner du temps)' },
+  { id: 'partiel', w: 9, text: 'ne réponds qu’à une partie de son message, ignore le reste' },
+  { id: 'insiste', w: 8, text: 'insiste pour la voir ou l’appeler, propose quelque chose de concret (ce soir, passer, marcher)' },
+  { id: 'retourne', w: 9, text: 'retourne la critique ou le reproche contre elle' },
+  { id: 'chaleur', w: 7, text: 'laisse passer un moment de chaleur ou de sincérité inattendu, sans en faire trop' },
+  { id: 'detache', w: 8, text: 'fais le détaché, comme si ça ne te touchait pas' },
+  { id: 'vexe', w: 6, text: 'sois un peu vexé ou agacé, ça se sent dans la sécheresse' },
+  { id: 'anodin', w: 5, text: 'parle d’un truc anodin de ta journée ou de ce que tu fais là, maintenant' },
+  { id: 'vu', w: 4, text: 'ne réponds pas : renvoie exactement [vu] et rien d’autre' },
+];
+
+const BURSTS = [[1, 34], [2, 32], [3, 22], [4, 12]];
+
+function weighted(items, weightOf, random) {
+  const total = items.reduce((t, x) => t + weightOf(x), 0);
+  let r = random() * total;
+  for (const x of items) { r -= weightOf(x); if (r <= 0) return x; }
+  return items.at(-1);
+}
+
+export function pickDirection(previousMoves = [], random = Math.random) {
+  const recent = previousMoves.slice(-2);
+  const move = weighted(MOVES.filter((m) => !recent.includes(m.id)), (m) => m.w, random);
+  const burst = move.id === 'vu' ? 0 : move.id === 'sec' ? 1 : weighted(BURSTS, (b) => b[1], random)[0];
+  return { move: move.id, text: move.text, burst };
+}
+
+const opener = (line) => line.trim().split(/\s+/).slice(0, 2).join(' ').toLowerCase();
+
+export async function runSimTurn(store, client, simId, text, { model = 'claude-opus-5-5', effort, today = new Date().toISOString().slice(0, 10), random = Math.random } = {}) {
   if (!client) throw new AIUnavailable('Claude isn’t connected here. See Memory & privacy.');
   const sim = store.getConversation(simId);
   const personId = sim.personIds[0];
   const r = retrieve(store, { text, focusPersonIds: [personId], maxEvents: 6 });
-  const history = sim.messages.filter((m) => m.role === 'user' || m.role === 'sim').slice(-HISTORY).map((m) => ({ role: m.role === 'sim' ? 'assistant' : 'user', content: m.text }));
+  const chat = sim.messages.filter((m) => m.role === 'user' || m.role === 'sim');
+  const history = chat.slice(-HISTORY).map((m) => ({ role: m.role === 'sim' ? 'assistant' : 'user', content: m.text }));
   while (history.length && history[0].role !== 'user') history.shift();
+
+  const mine = chat.filter((m) => m.role === 'sim');
+  const dir = pickDirection(mine.map((m) => m.move).filter(Boolean), random);
+  const recentLines = mine.slice(-5).flatMap((m) => m.text.split('\n')).map((l) => l.trim()).filter((l) => l && l !== '[vu]');
+  const avoid = [...new Set(recentLines.map(opener))];
+
   const system = simulationInstructions(store, personId);
-  const latest = `${text}\n\n<contexte_oracle date="${today}">\nÉvénements du dossier en lien avec ce message (pour toi seulement, ne les cite pas mot pour mot) :\n${r.trace.filter((t) => t.type === 'event').map((t) => { const e = currentEvent(store.get('events', t.id)); return `- ${e.date || '?'} · ${e.title} : ${e.summary || e.original}`; }).join('\n')}\n</contexte_oracle>`;
+  const latest = `${text}
+
+<contexte_oracle date="${today}">
+Événements du dossier en lien avec ce message (pour toi seulement, ne les cite pas mot pour mot) :
+${r.trace.filter((t) => t.type === 'event').map((t) => { const e = currentEvent(store.get('events', t.id)); return `- ${e.date || '?'} · ${e.title} : ${e.summary || e.original}`; }).join('\n')}
+
+Consigne pour CETTE réponse (ne la mentionne pas) :
+- ${dir.text}.
+${dir.burst ? `- envoie ${dir.burst === 1 ? 'un seul message' : `${dir.burst} messages courts, un par ligne`}.` : ''}
+- ne ressemble pas à tes réponses précédentes : autre longueur, autre structure, autre attaque. Ne reprends aucun de ces débuts : ${avoid.length ? avoid.map((a) => `« ${a} »`).join(', ') : '(aucun pour l’instant)'}.
+- ne réutilise pas les mêmes abréviations ou interjections que dans tes deux derniers messages ; pas besoin d’en mettre à chaque fois.
+- pas toujours de question à la fin, pas toujours « mdr ».
+</contexte_oracle>`;
+
   const raw = await completeText(client, { system, messages: [...history, { role: 'user', content: latest }], model, effort });
   if (!raw) throw new Error('No reply came back. Try again.');
-  const reply = lowercaseStarts(raw.replace(/^["«»\s]+|["«»\s]+$/g, ''));
+  let lines = lowercaseStarts(raw.replace(/^["«»\s]+|["«»\s]+$/g, '')).split('\n').map((l) => l.trim()).filter(Boolean);
+  if (lines.some((l) => /^\[vu\]$/i.test(l))) lines = ['[vu]'];
+  lines = lines.filter((l, i) => lines.indexOf(l) === i); // no duplicated bubbles
   const user = store.appendMessage(simId, { role: 'user', text });
-  const sim2 = store.appendMessage(simId, { role: 'sim', text: reply });
+  const sim2 = store.appendMessage(simId, { role: 'sim', text: lines.join('\n'), move: dir.move });
   return { user, sim: sim2 };
 }
 
